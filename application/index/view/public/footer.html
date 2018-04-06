@@ -2,3 +2,18 @@
 <script src="__STATIC__/amazeUi/assets/js/amazeui.min.js"></script>
 <script src="__STATIC__/amazeUi/assets/js/app.js"></script>
 
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        var tabFlag='{$Tab}';
+        if(tabFlag){
+            var span = $("span[Tab='{$Tab}']");
+            span.parent().addClass("active");
+            span.parent().parent().parent().css("display","block");
+        }
+
+    });
+
+
+
+</script>

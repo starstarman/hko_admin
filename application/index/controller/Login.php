@@ -3,12 +3,20 @@ namespace app\index\controller;
 use think\Controller;
 class Login extends Controller{
     public function login(){
-        return $this->fetch();
+        return $this->fetch('',[
+            'Tab'=>false,
+        ]);
     }
     public function loginSuccess(){
-       return $this->fetch();
+        return $this->fetch('',[
+            'Tab'=>false,
+        ]);
     }
     public function tablelist(){
-        return $this->fetch();
+        $data=input('param.');
+
+        return $this->fetch('',[
+            'Tab'=>$data['Tab'],
+        ]);
     }
 }
