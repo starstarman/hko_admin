@@ -5,7 +5,7 @@
     <div class="tpl-left-nav-list">
         <ul class="tpl-left-nav-menu">
             <li class="tpl-left-nav-item">
-                <a href="loginsuccess.html" class="nav-link active">
+                <a href="{:url('Login/loginSuccess',['Tab'=>'首页'])}" class="nav-link">
                     <i class="am-icon-home"></i>
                     <span >首页</span>
                 </a>
@@ -35,6 +35,31 @@
                         <a href="form-news.html">
                             <i class="am-icon-angle-right"></i>
                             <span Tab="信息反馈">信息反馈</span>
+                            <i class="tpl-left-nav-content tpl-badge-primary">
+                                5
+                            </i></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="tpl-left-nav-item">
+                <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                    <i class="am-icon-wpforms"></i>
+                    <span>文章管理</span>
+                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                </a>
+                <ul class="tpl-left-nav-sub-menu">
+                    <li>
+
+                        <a href="{:url('Article/articleAdd',['Tab'=>'新增文章'])}">
+                            <i class="am-icon-angle-right"></i>
+                            <span Tab="新增文章">新增文章</span>
+                            <i class="tpl-left-nav-content tpl-badge-success">
+                                18
+                            </i></a>
+
+                        <a href="{:url('Article/articleList',['Tab'=>'文章列表'])}">
+                            <i class="am-icon-angle-right"></i>
+                            <span Tab="文章列表">文章列表</span>
                             <i class="tpl-left-nav-content tpl-badge-primary">
                                 5
                             </i></a>

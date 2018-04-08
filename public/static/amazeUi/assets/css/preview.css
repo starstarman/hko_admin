@@ -1,0 +1,79 @@
+.preview-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: alpha(opacity = 75);
+    -moz-opacity: .75;
+    -khtml-opacity: .75;
+    opacity: .75;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 10004;
+}
+.wx_phone_preview {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -365px;
+    margin-left: -180px;
+    z-index: 10005;
+    width: 360px;
+    height: 680px;
+    background: url('../img/preview_phone.png') 0 0 no-repeat;
+}
+.wx_phone {
+    padding: 84px 56px 0 17px;
+}
+.wx_phone_hd {
+    text-align: center;
+    color: #fff;
+    line-height: 38px;
+    height: 38px;
+    width: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    padding: 0 20px;
+}
+.wx_phone_bd {
+    position: relative;
+    overflow: auto;
+    background-color: #fff;
+    height: 470px;
+}
+
+.btn {
+    min-width: 80px;
+    display: inline-block;
+    overflow: visible;
+    padding: 0 22px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font-size: 14px;
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+}
+.btn_default {
+    background-color: #fff;
+    background-image: -moz-linear-gradient(top,#fff 0,#fff 100%);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#fff));
+    background-image: -webkit-linear-gradient(top,#fff 0,#fff 100%);
+    background-image: -o-linear-gradient(top,#fff 0,#fff 100%);
+    background-image: linear-gradient(to bottom,#fff 0,#fff 100%);
+    border-color: #e7e7eb;
+    color: #222;
+}
+.btn_phone_preview_closed {
+    position: absolute;
+    left: 383px;
+    bottom: 90px;
+}
