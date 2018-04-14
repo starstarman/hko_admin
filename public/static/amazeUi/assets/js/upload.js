@@ -198,7 +198,7 @@ var uploader = new plupload.Uploader({
             {
                 var imgUrl = "https://heikeonline.oss-cn-beijing.aliyuncs.com/" + get_uploaded_object_name(file.name);
                 // document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '上传成功';
-                $('.w-e-text').append("<p><img src="+imgUrl+" style='width:340px;height:200px'></p>");
+                $('.w-e-text').append("<p><img src="+imgUrl+" style='width:264px;height:143px'></p>");
             }
             else if (info.status == 203)
             {

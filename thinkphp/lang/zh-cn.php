@@ -24,7 +24,7 @@ return [
     'dispatch type not support'                                 => '不支持的调度类型',
     'method param miss'                                         => '方法参数错误',
     'method not exists'                                         => '方法不存在',
-    'module not exists'                                         => '模块不存在',
+    'model not exists'                                         => '模块不存在',
     'controller not exists'                                     => '控制器不存在',
     'class not exists'                                          => '类不存在',
     'property not exists'                                       => '类的属性不存在',

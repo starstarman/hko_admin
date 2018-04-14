@@ -296,7 +296,7 @@ class App
      * @param string        $type     调度类型
      * @return void
      */
-    public static function dispatch($dispatch, $type = 'module')
+    public static function dispatch($dispatch, $type = 'model')
     {
         self::$dispatch = ['type' => $type, $type => $dispatch];
     }
@@ -449,9 +449,9 @@ class App
                 $data = Response::create($dispatch['url'], 'redirect')
                     ->code($dispatch['status']);
                 break;
-            case 'module': // 模块/控制器/操作
+            case 'model': // 模块/控制器/操作
                 $data = self::module(
-                    $dispatch['module'],
+                    $dispatch['model'],
                     $config,
                     isset($dispatch['convert']) ? $dispatch['convert'] : null
                 );
@@ -502,7 +502,7 @@ class App
         if ($config['app_multi_module']) {
             // 多模块部署
             $module    = strip_tags(strtolower($result[0] ?: $config['default_module']));
-            $bind      = Route::getBind('module');
+            $bind      = Route::getBind('model');
             $available = false;
 
             if ($bind) {
@@ -532,7 +532,7 @@ class App
                     $config['request_cache_except']
                 );
             } else {
-                throw new HttpException(404, 'module not exists:' . $module);
+                throw new HttpException(404, 'model not exists:' . $module);
             }
         } else {
             // 单一模块部署

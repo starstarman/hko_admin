@@ -28,7 +28,7 @@ class Schema extends Command
             ->addOption('config', null, Option::VALUE_REQUIRED, 'db config .')
             ->addOption('db', null, Option::VALUE_REQUIRED, 'db name .')
             ->addOption('table', null, Option::VALUE_REQUIRED, 'table name .')
-            ->addOption('module', null, Option::VALUE_REQUIRED, 'module name .')
+            ->addOption('model', null, Option::VALUE_REQUIRED, 'model name .')
             ->setDescription('Build database schema cache.');
     }
 
@@ -41,8 +41,8 @@ class Schema extends Command
         if ($input->hasOption('config')) {
             $config = $input->getOption('config');
         }
-        if ($input->hasOption('module')) {
-            $module = $input->getOption('module');
+        if ($input->hasOption('model')) {
+            $module = $input->getOption('model');
             // 读取模型
             $path = APP_PATH . $module . DS . 'model';
             $list = is_dir($path) ? scandir($path) : [];

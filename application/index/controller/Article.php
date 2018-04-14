@@ -27,4 +27,23 @@ class article extends Controller
             'Tab'=>'新增文章'
         ]);
     }
+
+    public function articleSub(){
+        $article = input('param.');
+
+        $articledata=[
+          'content'=>$article['content'],
+          'title'=>$article['title'],
+          'time'=>$article['time'],
+          'headimage'=>$article['headimage'],
+          'kindof'=>$article['kindof']
+        ];
+        $res= model('News')->save($articledata);
+
+        if ($res ==1){
+            return show('','添加成功',1);
+        }else{
+            return show('','添加失败请联系工作人员',0);
+        }
+    }
 }

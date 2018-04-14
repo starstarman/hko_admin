@@ -125,7 +125,7 @@ class Route
      * @param string    $type 绑定类型 默认为module 支持 namespace class controller
      * @return mixed
      */
-    public static function bind($bind, $type = 'module')
+    public static function bind($bind, $type = 'model')
     {
         self::$bind = ['type' => $type, $type => $bind];
     }
@@ -813,7 +813,7 @@ class Route
                         self::$bind = ['type' => 'class', 'class' => substr($result, 1)];
                     } else {
                         // 绑定到模块/控制器 例如 index/user
-                        self::$bind = ['type' => 'module', 'module' => $result];
+                        self::$bind = ['type' => 'model', 'model' => $result];
                     }
                     self::$domainBind = true;
                 } else {
@@ -1120,7 +1120,7 @@ class Route
         if (!empty($array[1])) {
             self::parseUrlParams($array[1]);
         }
-        return ['type' => 'module', 'module' => $controller . '/' . $action];
+        return ['type' => 'model', 'model' => $controller . '/' . $action];
     }
 
     /**
@@ -1208,8 +1208,8 @@ class Route
     public static function parseUrl($url, $depr = '/', $autoSearch = false)
     {
 
-        if (isset(self::$bind['module'])) {
-            $bind = str_replace('/', $depr, self::$bind['module']);
+        if (isset(self::$bind['model'])) {
+            $bind = str_replace('/', $depr, self::$bind['model']);
             // 如果有模块/控制器绑定
             $url = $bind . ('.' != substr($bind, -1) ? $depr : '') . ltrim($url, $depr);
         }
@@ -1263,7 +1263,7 @@ class Route
                 throw new HttpException(404, 'invalid request:' . str_replace('|', $depr, $url));
             }
         }
-        return ['type' => 'module', 'module' => $route];
+        return ['type' => 'model', 'model' => $route];
     }
 
     /**
@@ -1543,7 +1543,7 @@ class Route
         // 设置当前请求的路由变量
         Request::instance()->route($var);
         // 路由到模块/控制器/操作
-        return ['type' => 'module', 'module' => [$module, $controller, $action], 'convert' => false];
+        return ['type' => 'model', 'model' => [$module, $controller, $action], 'convert' => false];
     }
 
     /**

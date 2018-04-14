@@ -24,14 +24,14 @@ class Config extends Command
     protected function configure()
     {
         $this->setName('optimize:config')
-            ->addArgument('module', Argument::OPTIONAL, 'Build module config cache .')
+            ->addArgument('model', Argument::OPTIONAL, 'Build model config cache .')
             ->setDescription('Build config and common file cache.');
     }
 
     protected function execute(Input $input, Output $output)
     {
-        if ($input->getArgument('module')) {
-            $module = $input->getArgument('module') . DS;
+        if ($input->getArgument('model')) {
+            $module = $input->getArgument('model') . DS;
         } else {
             $module = '';
         }

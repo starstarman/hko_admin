@@ -389,7 +389,7 @@ class Request
                 $_SERVER['PATH_INFO'] = $_GET[Config::get('var_pathinfo')];
                 unset($_GET[Config::get('var_pathinfo')]);
             } elseif (IS_CLI) {
-                // CLI模式下 index.php module/controller/action/params/...
+                // CLI模式下 index.php model/controller/action/params/...
                 $_SERVER['PATH_INFO'] = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : '';
             }
 

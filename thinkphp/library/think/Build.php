@@ -192,7 +192,7 @@ class Build
             $module = $module ? $module . '\\' : '';
             $suffix = $suffix ? 'Controller' : '';
             $content = str_replace(
-                ['{$app}', '{$module}', '{layer}', '{$suffix}'],
+                ['{$app}', '{$model}', '{layer}', '{$suffix}'],
                 [$namespace, $module, 'controller', $suffix],
                 file_get_contents(THINK_PATH . 'tpl' . DS . 'default_index.tpl')
             );

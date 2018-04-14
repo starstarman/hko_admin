@@ -27,15 +27,15 @@ class Build extends Command
         $this->setName('build')
             ->setDefinition([
                 new Option('config', null, Option::VALUE_OPTIONAL, "build.php path"),
-                new Option('module', null, Option::VALUE_OPTIONAL, "module name"),
+                new Option('model', null, Option::VALUE_OPTIONAL, "model name"),
             ])
             ->setDescription('Build Application Dirs');
     }
 
     protected function execute(Input $input, Output $output)
     {
-        if ($input->hasOption('module')) {
-            \think\Build::module($input->getOption('module'));
+        if ($input->hasOption('model')) {
+            \think\Build::module($input->getOption('model'));
             $output->writeln("Successed");
             return;
         }

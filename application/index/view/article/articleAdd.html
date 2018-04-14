@@ -1,6 +1,8 @@
 {include file="public/header" /}
 <link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/preview.css">
 <link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/oss.css">
+<link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/rome.css">
+<link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/example.css">
 </head>
 <body data-type="generalComponents">
 
@@ -34,7 +36,7 @@
                             <div class="am-form-group">
                                 <label for="user-name" class="am-u-sm-3 am-form-label">标题 <span class="tpl-form-line-small-title">Title</span></label>
                                 <div class="am-u-sm-9">
-                                    <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
+                                    <input type="text" class="tpl-form-input" id="article-title" placeholder="请输入标题文字">
                                     <small>请填写标题文字10-20字左右。</small>
                                 </div>
                             </div>
@@ -42,8 +44,7 @@
                             <div class="am-form-group">
                                 <label for="user-email" class="am-u-sm-3 am-form-label">发布时间 <span class="tpl-form-line-small-title">Time</span></label>
                                 <div class="am-u-sm-9">
-                                    <input type="text" class="am-form-field tpl-form-no-bg" placeholder="发布时间" data-am-datepicker="" readonly/>
-                                    <small>发布时间为必填</small>
+                                    <input  class="am-form-field tpl-form-no-bg"  id='input' value="" />
                                 </div>
                             </div>
 
@@ -61,9 +62,6 @@
                                 <label for="user-weibo" class="am-u-sm-3 am-form-label">作者 <span class="tpl-form-line-small-title">Author</span></label>
                                 <div class="am-u-sm-9">
                                     <input type="text" id="user-weibo" placeholder="请输入您的名字或者化名">
-                                    <div>
-
-                                    </div>
                                 </div>
                             </div>
 
@@ -77,8 +75,10 @@
                                         <a id="postfiles2" href="javascript:void(0);" class='btn'style="background-color: #dd514c;" >开始上传</a>
                                         <span style="font-size: 16px; color: #888; ">如需更改封面图，选择文件再次上传即可</span>
                                     </div>
-                                    <img id="headImg" src="__STATIC__/amazeUi/assets/img/headImg.gif" style="width:244px;height:143px;margin: 10px 0 0 0 ;border-style:solid;
+                                    <div id="headImgD">
+                                    <img id="headImg" src="__STATIC__/amazeUi/assets/img/headImg.gif" style="width:264px;height:143px;margin: 10px 0 0 0 ;border-style:solid;
     border-width:1px; border-color: #beb4b4;">
+                                    </div>
                                 </div>
                             </div>
 
@@ -128,7 +128,10 @@
 <script type="text/javascript" src="__STATIC__/amazeUi/assets/js/wangEditor.min.js"></script>
 <script type="text/javascript" src="__STATIC__/amazeUi/assets/js/plupload.full.min.js"></script>
 <script type="text/javascript" src="__STATIC__/amazeUi/assets/js/upload.js"></script>
+<script type="text/javascript" src="__STATIC__/amazeUi/assets/js/rome.js"></script>
+
 <script type="text/javascript">
+    rome(input);
     var E = window.wangEditor;
     var editor = new E('#editor');
     // 自定义菜单配置
@@ -137,10 +140,56 @@
         'redo'  // 重复
     ];
     document.getElementById('submit').addEventListener('click', function () {
-        // 读取 html
+        //文章标题
+        var article_title =  $('#article-title').val();
+        //发布时间
+        var data = $('#input').val();
+        //分类
+        var kindof = $('.am-checked').attr("data-index",1).children().text();
+        //作者
+        var author = $('#user-weibo').val();
+        //封面图
+        var headImgSrc =  $('#headImg')[0].src;
+        // 读取没处理的内容
         var undealContent = editor.txt.html();
-        alert( undealContent.replace(/<br>/g,"").replace(/<p>/g,"").replace(/<p style[^>]*>/g,"").replace(/<\/p>/g,"%&%").replace(/<span style[^>]*>/g,"").replace(/<\/span>/g,"").replace(/<img src="/g,'').replace(/" style[^>]*">/g,'%&%').replace(/&nbsp;/g,' '));
+        //处理后的文章详情
+        var dealContent =  undealContent.replace(/<br>/g,"").replace(/<p>/g,"").replace(/<p style[^>]*>/g,"").replace(/<\/p>/g,"%&%").replace(/<span style[^>]*>/g,"").replace(/<\/span>/g,"").replace(/<img src="/g,'').replace(/" style[^>]*">/g,'%&%').replace(/&nbsp;/g,' ');
+
+
+        if (article_title ==''){
+            alert('文章标题不能为空');
+            return false;
+        }
+
+        if (data ==''){
+            alert('时间不能为空');
+            return false;
+        }
+
+        if (author ==''){
+            alert('作者不能为空');
+            return false;
+        }
+
+        //提交文章
+            var url = "{:url('Article/articleSub')}";
+            var artdata = {
+                content :dealContent,
+                title:article_title,
+                time:data,
+                headimage:headImgSrc,
+                kindof:kindof,
+            };
+            $.post(url,artdata,function (res) {
+                if (res.data==1){
+                    alert(res.mes);
+                } else{
+                    alert(res.mes)
+                }
+            })
+
     }, false);
+
     editor.create();
 
     $('#preview').click(function(){
@@ -153,7 +202,20 @@
             "<div class=\"wx_phone_bd wx_phone_preview_card_wrp\"> \n" +
             "\n" +
             "    \n" +
-            "<div class=\"xcx_pre\"> \n" +
+            "<div class=\"xcx_pre\"> \n"+ $('#headImgD').html()+
+            "<div class=\"user-name\" style='font-size:9.35px;\n" +
+            "color:#999;\n" +
+            "margin-top: 10px\n'> \n"+$('#user-weibo').val()+"          发布于          "+$('#input').val()+
+            "</div>\n" +
+            "<div class=\"article-tit\" style='text-align:center;\n" +
+            "font-weight:700;\n" +
+            "letter-spacing:1px;\n" +
+            "color:#4b556c;\n" +
+            "font-size:17.2px;\n" +
+            "margin-top:5px;\n" +
+            "margin-bottom:10px;\n'> \n"+
+            $('#article-title').val()+
+            "</div>\n" +
             "\n" +editor.txt.html()+
             "</div>\n" +
             "</div>\n" +
