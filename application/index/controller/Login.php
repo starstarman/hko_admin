@@ -14,7 +14,6 @@ class Login extends Controller{
     }
     public function tablelist(){
         $data=input('param.');
-
         return $this->fetch('',[
             'Tab'=>$data['Tab'],
         ]);
