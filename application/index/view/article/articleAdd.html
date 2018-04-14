@@ -1,5 +1,6 @@
 {include file="public/header" /}
 <link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/preview.css">
+<link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/oss.css">
 </head>
 <body data-type="generalComponents">
 
@@ -66,29 +67,40 @@
                                 </div>
                             </div>
 
+
                             <div class="am-form-group">
                                 <label for="user-weibo" class="am-u-sm-3 am-form-label">封面图 <span class="tpl-form-line-small-title">Images</span></label>
                                 <div class="am-u-sm-9">
-                                    <div class="am-form-group am-form-file">
-                                        <div class="tpl-form-file-img">
-                                            <img src="../../../../public/static/amazeUi/assets/img/a5.png" alt="">
-                                        </div>
-                                        <button type="button" class="am-btn am-btn-danger am-btn-sm">
-                                            <i class="am-icon-cloud-upload"></i> 添加封面图片</button>
-                                        <input id="doc-form-file" type="file" multiple>
+                                    <div id="ossfile2"  >你的浏览器不支持flash,Silverlight或者HTML5！</div>
+                                    <div id="container2">
+                                        <a id="selectfiles2" href="javascript:void(0);" class='btn' style="background-color: #dd514c;">选择文件</a>
+                                        <a id="postfiles2" href="javascript:void(0);" class='btn'style="background-color: #dd514c;" >开始上传</a>
+                                        <span style="font-size: 16px; color: #888; ">如需更改封面图，选择文件再次上传即可</span>
                                     </div>
-
+                                    <img id="headImg" src="__STATIC__/amazeUi/assets/img/headImg.gif" style="width:244px;height:143px;margin: 10px 0 0 0 ;border-style:solid;
+    border-width:1px; border-color: #beb4b4;">
                                 </div>
                             </div>
 
 
 
+                            <div class="am-form-group">
+                                <label for="user-weibo" class="am-u-sm-3 am-form-label">文章中加入图片 <span class="tpl-form-line-small-title">Images</span></label>
+                                <div class="am-u-sm-9">
+                                    <div id="ossfile"  >你的浏览器不支持flash,Silverlight或者HTML5！</div>
+                                    <div id="container">
+                                        <a id="selectfiles" href="javascript:void(0);" class='btn'>选择文件</a>
+                                        <a id="postfiles" href="javascript:void(0);" class='btn'>开始上传</a>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div class="am-form-group">
-                                <label for="user-intro" class="am-u-sm-3 am-form-label">文章内容</label>
+                                <label for="user-intro" class="am-u-sm-3 am-form-label"></label>
                                 <div class="am-u-sm-9">
                                     <div id="editor">
-                                        <b>请编辑您的文章内容</b>
+                                        <p>请编辑您的文章内容</p>
                                     </div>
                                 </div>
 
@@ -114,55 +126,36 @@
 
 {include file="public/footer" /}
 <script type="text/javascript" src="__STATIC__/amazeUi/assets/js/wangEditor.min.js"></script>
+<script type="text/javascript" src="__STATIC__/amazeUi/assets/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="__STATIC__/amazeUi/assets/js/upload.js"></script>
 <script type="text/javascript">
     var E = window.wangEditor;
     var editor = new E('#editor');
     // 自定义菜单配置
     editor.customConfig.menus = [
-        'image',  // 插入图片
         'undo',  // 撤销
         'redo'  // 重复
     ];
     document.getElementById('submit').addEventListener('click', function () {
         // 读取 html
-        alert(editor.txt.html())
+        var undealContent = editor.txt.html();
+        alert( undealContent.replace(/<br>/g,"").replace(/<p>/g,"").replace(/<p style[^>]*>/g,"").replace(/<\/p>/g,"%&%").replace(/<span style[^>]*>/g,"").replace(/<\/span>/g,"").replace(/<img src="/g,'').replace(/" style[^>]*">/g,'%&%').replace(/&nbsp;/g,' '));
     }, false);
-    editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024;
-    editor.customConfig.uploadImgMaxLength = 1;
-    editor.customConfig.uploadFileName = 'image';
-    // editor.customConfig.debug = true;
-    editor.customConfig.uploadImgServer = "{:url('ImgUpload/upload')}" ; // 上传图片到服务器
     editor.create();
 
     $('#preview').click(function(){
         $(this).parent().parent().before("<div class=\"wx_phone_preview\">\n" +
-            "        <span id='close' class=\"btn btn_default btn_phone_preview_closed jsPhoneViewClose\">关闭</span>\n" +
+            "        <span id=\"close\" class=\"btn btn_default btn_phone_preview_closed jsPhoneViewClose\">关闭</span>\n" +
             "        <div class=\"wx_phone jsPhoneViewMain\">\n" +
             "            <div class=\"wx_phone_hd\">\n" +
-            "    黑科大Aiteyou软件资源库\n" +
+            "    黑科Online文章预览\n" +
             "</div>\n" +
             "<div class=\"wx_phone_bd wx_phone_preview_card_wrp\"> \n" +
             "\n" +
-            "    <div class=\"msg_card wx_phone_preview_card jsPhoneViewCard\" data-index=\"0\">\n" +
-            "        <div class=\"msg_card_inner\">\n" +
-            "            <div class=\"msg_card_bd\">\n" +
-            "                <h4 class=\"msg_card_title\" title=\"sfdsgfds\">sfdsgfds</h4>\n" +
-            "                <div class=\"msg_card_info\">\n" +
-            "                    04月07日\n" +
-            "                </div>\n" +
-            "                \n" +
-            "                <div class=\"msg_card_extra_info\" style=\"background-image:url('http://mmbiz.qpic.cn/mmbiz_jpg/3eoO5UJbdq1hTnMnFcG3ozo4G90EMcT5AyHUjq7gLe2UqPjW66zHJGI6MQuiazhmibnjQd0tY6omGFSfPazCDiaoQ/0?wx_fmt=jpeg');\">\n" +
-            "                    <!--<img class=\"appmsg_thumb\" src=\"\">-->\n" +
-            "                </div>\n" +
-            "                \n" +
-            "                <div class=\"msg_card_desc\" title=\"dsfgfdsgfdgfg\">dsfgfdsgfdgfg</div>\n" +
-            "            </div>\n" +
-            "            <div class=\"msg_card_ft\">\n" +
-            "                <i class=\"icon_arrow_default\"></i>\n" +
-            "                阅读原文            </div>\n" +
-            "        </div>\n" +
-            "    </div>\n" +
-            "\n" +
+            "    \n" +
+            "<div class=\"xcx_pre\"> \n" +
+            "\n" +editor.txt.html()+
+            "</div>\n" +
             "</div>\n" +
             " \n" +
             "        </div>\n" +
