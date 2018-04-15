@@ -7,7 +7,7 @@
 	<div class="myapp-login-logo-block  tpl-login-max">
 		<div class="myapp-login-logo-text">
 			<div class="myapp-login-logo-text">
-				黑科 <span>Login</span> Oline <i class="am-icon-skyatlas"></i>
+				黑科 <span>Login</span> Online <i class="am-icon-skyatlas"></i>
 				
 			</div>
 		</div>
@@ -16,13 +16,13 @@
 			<i>Log In </i> or <span> Sign Up</span>
 		</div>
 		<div class="am-u-sm-10 login-am-center">
-			<form class="am-form">
+			<form class="am-form" action="{:url('login/loginsuccess')}" method="post">
 				<fieldset>
 					<div class="am-form-group">
-						<input type="number" class="" id="doc-ipt-email-1" placeholder="输入电子邮件">
+						<input type="text" name="number" class="" id="doc-ipt-email-1" placeholder="输入账号">
 					</div>
 					<div class="am-form-group">
-						<input type="password" class="" id="doc-ipt-pwd-1" placeholder="设置个密码吧">
+						<input type="password" name="password" class="" id="doc-ipt-pwd-1" placeholder="设置个密码吧">
 					</div>
 					<p><button type="submit" class="am-btn am-btn-default">登录</button></p>
 				</fieldset>
@@ -33,12 +33,8 @@
 
   {include file="public/footer" /}
   <script>
-      $('.am-btn').click(function(){
-          window.location.href='loginsuccess.html';
-      })
+
   </script>
-
-
 </body>
 
 </html>
