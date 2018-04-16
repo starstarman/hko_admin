@@ -196,7 +196,7 @@ var uploader = new plupload.Uploader({
 		FileUploaded: function(up, file, info) {
             if (info.status == 200)
             {
-                var imgUrl = "https://heikeonline.oss-cn-beijing.aliyuncs.com/" + get_uploaded_object_name(file.name);
+                var imgUrl = "https://heikeonline.oss-cn-beijing.aliyuncs.com/" + get_uploaded_object_name(file.name)+'?x-oss-process=style/article_picture';
                 // document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '上传成功';
                 $('.w-e-text').append("<p><img src="+imgUrl+" style='width:264px;height:143px'></p>");
             }
@@ -283,7 +283,7 @@ var uploader2 = new plupload.Uploader({
         FileUploaded: function(up, file, info) {
             if (info.status == 200)
             {
-                var imgUrl = "https://heikeonline.oss-cn-beijing.aliyuncs.com/" + get_uploaded_object_name(file.name);
+                var imgUrl = "https://heikeonline.oss-cn-beijing.aliyuncs.com/" + get_uploaded_object_name(file.name)+'?x-oss-process=style/article_picture';
                 // document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '上传成功';
                 $('#headImg').attr('src',imgUrl);
             }

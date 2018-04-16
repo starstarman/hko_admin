@@ -36,7 +36,7 @@
                             <div class="am-form-group">
                                 <label for="user-name" class="am-u-sm-3 am-form-label">标题 <span class="tpl-form-line-small-title">Title</span></label>
                                 <div class="am-u-sm-9">
-                                    <input type="text" class="tpl-form-input" id="article-title" placeholder="请输入标题文字">
+                                    <input type="text" class="tpl-form-input" id="article-title"  value="{$new[0]['title']}" placeholder="请输入标题文字">
                                     <small>请填写标题文字10-20字左右。</small>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                             <div class="am-form-group">
                                 <label for="user-email" class="am-u-sm-3 am-form-label">发布时间 <span class="tpl-form-line-small-title">Time</span></label>
                                 <div class="am-u-sm-9">
-                                    <input  class="am-form-field tpl-form-no-bg"  id='input' value="" />
+                                    <input  class="am-form-field tpl-form-no-bg"  id='input' value="{$new[0]['time']}" />
                                 </div>
                             </div>
 
@@ -77,7 +77,7 @@
                                         <span style="font-size: 16px; color: #888; ">如需更改封面图，选择文件再次上传即可</span>
                                     </div>
                                     <div id="headImgD">
-                                    <img id="headImg" src="__STATIC__/amazeUi/assets/img/headImg.png" style="width:264px;height:143px;margin: 10px 0 0 0 ;border-style:solid;
+                                    <img id="headImg" src="{$new[0]['headimage']}" style="width:264px;height:143px;margin: 10px 0 0 0 ;border-style:solid;
     border-width:1px; border-color: #beb4b4;">
                                     </div>
                                 </div>
@@ -101,7 +101,8 @@
                                 <label for="user-intro" class="am-u-sm-3 am-form-label"></label>
                                 <div class="am-u-sm-9">
                                     <div id="editor">
-                                        <p>请编辑您的文章内容</p>
+                                        <p> {$new[0]['newhtml']}</p>
+
                                     </div>
                                 </div>
 
@@ -110,7 +111,7 @@
                             <div class="am-form-group">
                                 <div class="am-u-sm-9 am-u-sm-push-3">
                                     <button type="button" id="preview" class="am-btn am-btn-danger tpl-btn-bg-color-danger ">预览</button>
-                                    <button type="button" id="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                    <button type="button" id="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">修改</button>
                                 </div>
                             </div>
                         </form>
@@ -141,6 +142,7 @@
         'redo'  // 重复
     ];
     document.getElementById('submit').addEventListener('click', function () {
+
         //文章标题
         var article_title =  $('#article-title').val();
         //发布时间
@@ -173,8 +175,9 @@
         }
 
         //提交文章
-            var url = "{:url('Article/articleSub')}";
+            var url = "{:url('Article/articleUpdate')}";
             var artdata = {
+                id:"{$new[0]['id']}",
                 content :dealContent,
                 title:article_title,
                 time:data,
