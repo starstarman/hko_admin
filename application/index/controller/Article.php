@@ -10,6 +10,7 @@ namespace app\index\controller;
 
 
 use think\Controller;
+use think\Session;
 
 class Article extends Controller
 {
@@ -45,6 +46,7 @@ class Article extends Controller
         $article = input('param.');
 
         $articledata=[
+            'user_id'=>Session::get('id'),
           'content'=>$article['content'],
           'title'=>$article['title'],
           'time'=>$article['time'],
@@ -69,9 +71,6 @@ class Article extends Controller
         $newId = input('param.');
             //编辑文章的数据
             $new= model('News')->where(['id'=>$newId['newId']])->select();
-//            print_r($news);
-//            print_r($news[0]['title']);
-//            die();
             return $this->fetch('',[
                 'Tab'=>'编辑文章',
                 'new'=>$new

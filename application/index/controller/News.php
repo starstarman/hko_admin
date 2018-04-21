@@ -9,7 +9,7 @@ class News extends Controller{
         $this->obj = model("NewsModel");
     }
     public function news(){
-        $list = Db::name('newcomment')->order('time','desc')->paginate(5);
+        $list = Db::name('newcomment')->order('time','desc')->paginate(10);
         $this->assign('list', $list);
         return $this->fetch('',[
             'Tab'=>'资讯评论',

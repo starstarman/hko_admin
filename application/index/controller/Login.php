@@ -11,25 +11,43 @@ class Login extends Controller{
     }
     public function loginsuccess(){
         $data = input('param.');
-        if($data['number'] == '刘阔' || $data['number'] == '李汝丽'|| $data['number'] == '李超'||$data['number'] == '唐博' || $data['number'] == '董竹杰' || $data['number'] == '岳家伟'){
-            if($data['password']!='666666'){
-                $this->error('密码错误！');
-            }else{
-                Session::set('name',$data['number']);
-                $this->success('登陆成功！','login/tablelist');
-            }
+        $name =$data['name'];
+        $password = $data['password'];
+        $whereData = [
+            'name'=>$name,
+            'password'=>$password
+        ];
+        $res = model('User')->where($whereData)->select();
+        if (empty($res)){
+            return show('0','用户名或者密码不正确');
         }else{
-            $this->error('用户名错误！','login/login');
+            Session::set('name',$res[0]['name']);
+            Session::set('isvip',$res[0]['isvip']);
+            Session::set('id',$res[0]['id']);
+            Session::set('icon',$res[0]['icon']);
+            $loginSuccessUrl = url('login/tablelist');
+            return show('1','用户名或者密码不正确',$loginSuccessUrl);
         }
-
     }
     public function tablelist(){
+
         Session::get('name');
-        return $this->fetch('',[
-            'Tab'=>'首页'
-        ]);
+        if (Session::get('isvip')==1){
+            return $this->fetch('',[
+                'Tab'=>'首页'
+            ]);
+        };
+
+        if (Session::get('isvip')==2){
+            return $this->fetch('article/articleadd',[
+                'Tab'=>'编辑文章'
+            ]);
+        };
+
 
     }
+
+
     public function logout()
     {
         Session::start();

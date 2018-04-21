@@ -9,7 +9,7 @@ class Match extends Controller{
         $this->obj = model("MatchModel");
     }
     public function match(){
-        $list = Db::name('gamecomment')->order('time','desc')->paginate(2);
+        $list = Db::name('gamecomment')->order('time','desc')->paginate(10);
         $this->assign('list', $list);
         return $this->fetch('',[
             'Tab'=>'赛事评论',

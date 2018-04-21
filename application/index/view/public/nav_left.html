@@ -4,12 +4,17 @@
     </div>
     <div class="tpl-left-nav-list">
         <ul class="tpl-left-nav-menu">
+            <!--首页的权限-->
+            {in name='$Request.session.isvip' value="1"}
             <li class="tpl-left-nav-item">
                 <a href="{:url('login/tablelist',['Tab'=>'首页'])}" class="nav-link">
                     <i class="am-icon-home"></i>
                     <span >首页</span>
                 </a>
             </li>
+           {/in}
+            <!--评论管理的权限-->
+            {in name='$Request.session.isvip' value="1"}
             <li class="tpl-left-nav-item">
                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
                     <i class="am-icon-comments"></i>
@@ -40,6 +45,9 @@
                     </li>
                 </ul>
             </li>
+            {/in}
+            <!--文章管理的权限-->
+            {in name='$Request.session.isvip' value="1,2"}
             <li class="tpl-left-nav-item">
                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
                     <i class="am-icon-wpforms"></i>
@@ -56,15 +64,47 @@
 
                             </i></a>
 
+                        {in name='$Request.session.isvip' value="1"}
                         <a href="{:url('Article/articleList',['Tab'=>'文章列表'])}">
                             <i class="am-icon-angle-right"></i>
                             <span Tab="文章列表">文章列表</span>
                             <i class="tpl-left-nav-content tpl-badge-primary">
 
                             </i></a>
+                        {/in}
                     </li>
                 </ul>
             </li>
+            {/in}
+            <!--反馈管理-->
+            {in name='$Request.session.isvip' value="1"}
+            <li class="tpl-left-nav-item">
+                <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                    <i class="am-icon-bolt"></i>
+                    <span>反馈管理</span>
+                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                </a>
+                <ul class="tpl-left-nav-sub-menu">
+                    <li>
+
+                        <a href="{:url('Feedback/feedbackList',['Tab'=>'反馈列表'])}">
+                            <i class="am-icon-angle-right"></i>
+                            <span Tab="反馈列表">反馈列表</span>
+                            <i class="tpl-left-nav-content tpl-badge-success">
+
+                            </i></a>
+
+                        <!--<a href="{:url('Article/articleList',['Tab'=>'文章列表'])}">-->
+                            <!--<i class="am-icon-angle-right"></i>-->
+                            <!--<span Tab="文章列表">文章列表</span>-->
+                            <!--<i class="tpl-left-nav-content tpl-badge-primary">-->
+
+                            <!--</i></a>-->
+
+                    </li>
+                </ul>
+            </li>
+            {/in}
         </ul>
     </div>
 </div>
