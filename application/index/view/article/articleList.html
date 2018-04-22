@@ -53,13 +53,13 @@
                                             <td>
                                                 <div class="am-btn-toolbar">
                                                     <div class="am-btn-group am-btn-group-xs">
-                                                       <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span>  <a href="{:url('Article/articleEdit',['newId'=>$vo.id])}">编辑</a></button>
+                                                       <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span>  <a href="{:url('Article/articleEdit',['newId'=>$vo.id])}">编辑</a></button>
                                                         {if condition = "$vo.status eq 0"}
-                                                        <button id="release" value="{$vo.id}" class="am-btn am-btn-default  am-text-success am-btn-xs am-hide-sm-only"><span class="am-icon-eye"></span>发布</button>
+                                                        <button type="button" id="release" value="{$vo.id}" class="am-btn am-btn-default  am-text-success am-btn-xs am-hide-sm-only"><span class="am-icon-eye"></span>发布</button>
                                                         {else /}
-                                                        <button id="under" value="{$vo.id}" class="am-btn am-btn-default am-text-warning am-btn-xs am-hide-sm-only"> <span class="am-icon-eye-slash"></span>下线</button>
+                                                        <button type="button" id="under" value="{$vo.id}" class="am-btn am-btn-default am-text-warning am-btn-xs am-hide-sm-only"> <span class="am-icon-eye-slash"></span>下线</button>
                                                         {/if}
-                                                        <button id="del" value="{$vo.id}"class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
+                                                        <button type="button" id="del" value="{$vo.id}"class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
 
                                                     </div>
                                                 </div>
