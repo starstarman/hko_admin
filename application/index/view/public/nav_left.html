@@ -64,6 +64,14 @@
 
                             </i></a>
 
+                        {in name='$Request.session.isvip' value="2"}
+                        <a href="{:url('Article/articleHistory',['Tab'=>'历史编辑'])}">
+                            <i class="am-icon-angle-right"></i>
+                            <span Tab="历史编辑">历史编辑</span>
+                            <i class="tpl-left-nav-content tpl-badge-success">
+
+                            </i></a>
+                        {/in}
                         {in name='$Request.session.isvip' value="1"}
                         <a href="{:url('Article/articleList',['Tab'=>'文章列表'])}">
                             <i class="am-icon-angle-right"></i>

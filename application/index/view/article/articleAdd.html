@@ -64,7 +64,7 @@
                             <div class="am-form-group">
                                 <label for="user-weibo" class="am-u-sm-3 am-form-label">作者 <span class="tpl-form-line-small-title">Author</span></label>
                                 <div class="am-u-sm-9">
-                                    <input type="text" id="user-weibo"  readonly="readonly" placeholder="{$Request.session.name}" value="{$Request.session.name}" >
+                                    <input type="text" id="user-weibo"  placeholder="{$Request.session.name}" value="{$Request.session.name}" >
                                 </div>
                             </div>
 
@@ -113,6 +113,7 @@
                                 <div class="am-u-sm-9 am-u-sm-push-3">
                                     <button type="button" id="preview" class="am-btn am-btn-danger tpl-btn-bg-color-danger ">预览</button>
                                     <button type="button" id="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                    <button type="button" id="rough_draft" class="am-btn am-btn-primary am-btn-success ">保存草稿</button>
                                 </div>
                             </div>
                         </form>
@@ -151,6 +152,7 @@
         var kindof = $('.am-checked').attr("data-index",1).children().text();
         //作者
         var author = $('#user-weibo').val();
+
         //封面图
         var headImgSrc =  $('#headImg')[0].src;
         // 读取没处理的内容
@@ -178,6 +180,7 @@
             var url = "{:url('Article/articleSub')}";
             var artdata = {
                 content :dealContent,
+                author:author,
                 title:article_title,
                 time:data,
                 headimage:headImgSrc,
@@ -191,6 +194,61 @@
                     alert(res.mes)
                 }
             })
+
+
+    }, false);
+    document.getElementById('rough_draft').addEventListener('click', function () {
+        //文章标题
+        var article_title =  $('#article-title').val();
+        //发布时间
+        var data = $('#input').val();
+        //分类
+        var kindof = $('.am-checked').attr("data-index",1).children().text();
+        //作者
+        var author = $('#user-weibo').val();
+
+        //封面图
+        var headImgSrc =  $('#headImg')[0].src;
+        // 读取没处理的内容
+        var undealContent = editor.txt.html();
+        //处理后的文章详情
+        var dealContent =  undealContent.replace(/<br>/g,"").replace(/<p>/g,"").replace(/<p style[^>]*>/g,"").replace(/<\/p>/g,"%&%").replace(/<span style[^>]*>/g,"").replace(/<\/span>/g,"").replace(/<img src="/g,'').replace(/" style[^>]*">/g,'%&%').replace(/&nbsp;/g,' ');
+
+
+        if (article_title ==''){
+            alert('文章标题不能为空');
+            return false;
+        }
+
+        if (data ==''){
+            alert('时间不能为空');
+            return false;
+        }
+
+        if (author ==''){
+            alert('作者不能为空');
+            return false;
+        }
+
+        //提交文章
+            var url = "{:url('Article/articleRoughDraft')}";
+            var artdata = {
+                content :dealContent,
+                author:author,
+                title:article_title,
+                time:data,
+                headimage:headImgSrc,
+                kindof:kindof,
+                newhtml:undealContent,
+            };
+            $.post(url,artdata,function (res) {
+                if (res.data==1){
+                    alert(res.mes);
+                } else{
+                    alert(res.mes)
+                }
+            })
+
 
     }, false);
 

@@ -36,7 +36,7 @@
                             <div class="am-form-group">
                                 <label for="user-name" class="am-u-sm-3 am-form-label">标题 <span class="tpl-form-line-small-title">Title</span></label>
                                 <div class="am-u-sm-9">
-                                    <input type="text" class="tpl-form-input" id="article-title"  value="{$new[0]['title']}" placeholder="请输入标题文字">
+                                    <input type="text" class="tpl-form-input" id="article-title"  value='{$new[0]["title"]}' placeholder="请输入标题文字">
                                     <small>请填写标题文字10-20字左右。</small>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                             <div class="am-form-group">
                                 <label for="user-weibo" class="am-u-sm-3 am-form-label">作者 <span class="tpl-form-line-small-title">Author</span></label>
                                 <div class="am-u-sm-9">
-                                    <input type="text" id="user-weibo" placeholder="请输入您的名字或者化名">
+                                    <input type="text" id="user-weibo" placeholder="{$new[0]['author']}" value="{$new[0]['author']}">
                                 </div>
                             </div>
 
@@ -111,7 +111,7 @@
                             <div class="am-form-group">
                                 <div class="am-u-sm-9 am-u-sm-push-3">
                                     <button type="button" id="preview" class="am-btn am-btn-danger tpl-btn-bg-color-danger ">预览</button>
-                                    <button type="button" id="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">修改</button>
+                                    <button type="button" id="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">修改并提交</button>
                                 </div>
                             </div>
                         </form>

@@ -17,13 +17,23 @@ class Article extends Controller
     public function articleList(){
 
         //查询所有文章
-        $news = model('News')->where('status','<>',-1)->order('status asc,time desc')->paginate(10);
+        $news = model('News')->where('status','<>',-2)->where('status','<>',-1)->order('status asc,time desc')->paginate(10);
 
         return $this->fetch('',[
             'Tab'=>'文章列表',
             'news'=>$news
         ]);
 
+    }
+    /*
+     * 历史编辑
+     */
+    public function articleHistory(){
+        $news = model('News')->where('status','<>',-1)->where('user_id','=',Session::get('id'))->order('time desc')->paginate(10);
+        return $this->fetch('',[
+            'Tab'=>'历史编辑',
+            'news'=>$news
+        ]);
     }
 
     /**
@@ -48,6 +58,7 @@ class Article extends Controller
         $articledata=[
             'user_id'=>Session::get('id'),
           'content'=>$article['content'],
+            'author'=>$article['author'],
           'title'=>$article['title'],
           'time'=>$article['time'],
           'headimage'=>$article['headimage'],
@@ -63,6 +74,33 @@ class Article extends Controller
         }
     }
 
+
+    /**
+     * 文章保存草稿
+     */
+    public function articleRoughDraft(){
+        $article = input('param.');
+
+        $articledata=[
+            'user_id'=>Session::get('id'),
+            'content'=>$article['content'],
+            'author'=>$article['author'],
+            'title'=>$article['title'],
+            'time'=>$article['time'],
+            'headimage'=>$article['headimage'],
+            'kindof'=>$article['kindof'],
+            'newhtml'=>$article['newhtml'],
+            'status'=>-2
+        ];
+        $res= model('News')->save($articledata);
+
+        if ($res ==1){
+            return show('','保存成功',1);
+        }else{
+            return show('','保存失败请联系工作人员',0);
+        }
+    }
+
     /**
      * 文章编辑
      */
@@ -73,12 +111,12 @@ class Article extends Controller
             $new= model('News')->where(['id'=>$newId['newId']])->select();
             return $this->fetch('',[
                 'Tab'=>'编辑文章',
-                'new'=>$new
+                'new'=>$new,
             ]);
     }
 
     /**
-     * 编辑更新文章
+     * 修改并提交
      */
     public function articleUpdate(){
         $article = input('param.');
@@ -89,7 +127,8 @@ class Article extends Controller
             'time'=>$article['time'],
             'headimage'=>$article['headimage'],
             'kindof'=>$article['kindof'],
-            'newhtml'=>$article['newhtml']
+            'newhtml'=>$article['newhtml'],
+            'status'=>0
         ];
         $res= model('News')->save($articledata,['id'=>$article['id']]);
         if ($res ==1){
@@ -146,9 +185,9 @@ class Article extends Controller
         $res = model('News')->save($underData,['id'=>$articleStatus['id']]);
 
         if ($res ==1){
-            return show('','修改成功',1);
+            return show('','删除成功',1);
         }else{
-            return show('','修改失败请联系工作人员',0);
+            return show('','删除失败请联系工作人员',0);
         }
 
     }
