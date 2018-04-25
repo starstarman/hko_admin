@@ -27,4 +27,30 @@ class Feedback extends Controller
             'list'=>$feedbackList
         ]);
     }
+
+    /**
+     * 反馈状态更新
+     */
+    public function feedback_replay_status(){
+        $feedback = input('param.');
+        $result = $this->obj->changeStatus($feedback['id'],$feedback['status']);
+        if ($result==1){
+            return show('','回复成功','1');
+        }else{
+            return show('','数据库更新失败','0');
+        }
+    }
+
+    /*
+     * 删除反馈
+     */
+    public function feedback_del(){
+        $feedback = input('param.');
+        $result = $this->obj->changeStatus($feedback['id'],$feedback['status']);
+        if ($result==1){
+            return show('','删除成功','1');
+        }else{
+            return show('','删除失败请联系管理员','0');
+        }
+    }
 }

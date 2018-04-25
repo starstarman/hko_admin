@@ -34,7 +34,7 @@
                                         <tr>
                                             <th class="table-check"><input type="checkbox" class="tpl-table-fz-check"></th>
                                             <th class="table-id">ID</th>
-                                            <th class="table-title">用户名</th>
+                                            <th class="table-title">用户ID</th>
                                             <th class="table-type">反馈内容</th>
                                             <th class="table-author am-hide-sm-only">反馈日期</th>
                                             <th class="table-date am-hide-sm-only">状态</th>
@@ -62,8 +62,12 @@
                                                        <button value="{$vo.current}" type="button" class=" feedback_see am-btn am-btn-default"
                                                                 data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"><span class="am-icon-eye"></span> 查看</button>
                                                         <button
-                                                                type="button" id="{$vo.id}" value="{$vo.user_id}" class=" doc-prompt-toggle am-btn am-btn-default" >
+                                                                type="button" vid="{$vo.id}" value="{$vo.user_id}" class=" doc-prompt-toggle am-btn am-btn-default" >
                                                             <span class="am-icon-pencil-square"></span> 回复
+                                                        </button>
+                                                        <button
+                                                                type="button"  vid="{$vo.id}" value="{$vo.user_id}" class="del_feedback am-btn am-btn-default" >
+                                                            <span class="am-icon-pencil-square"></span> 删除
                                                         </button>
 
                                                     </div>
@@ -121,48 +125,62 @@
     $('.feedback_see').click(function () {
         $('#feedback_view').html($(this).val());
     });
+    //回复
       var feedback = {};
-      var url="http://47.106.138.230:8080/HeiKeOnline2/feedbacks/feedBackreply.do";
+      var url=servername.testServer+"/feedbacks/feedBackreply.do";
         $('.doc-prompt-toggle').on('click', function() {
              feedback = {
-                'id' :$(this).attr('id')  ,
+                'id' :$(this).attr('vid')  ,
                 'userId':$(this).val() ,
             };
             $('#my-prompt').modal({
                 onConfirm: function(e) {
                     feedback.replyContent = e.data;
-                    // $.post(url,feedback,function (res){
-                    //     if (res==1){
-                    //         alert('提交成功')
-                    //     }else{
-                    //         alert('提交失败')
-                    //     }
-                    // });
-
                     $.post({
-                        url: "http://47.106.138.230:8080/HeiKeOnline2/feedbacks/feedBackreply.do",
+                        url: servername.testServer+"/feedbacks/feedBackreply.do",
                         contentType:"application/json",
                         data: JSON.stringify(feedback),
                         success: function (result) {
-                            alert("succes");
-                        }
+                            if (result==1){
+                                //重置状态
+                                var url = "{:url('Feedback/feedback_replay_status')}";
+                                var data = {
+                                    'id':feedback.id,
+                                    'status':0
+                                };
+                                $.post(url,data,function (res) {
+                                    if (res.data==1){
+                                        alert(res.mes)
+                                        window.location.reload();
+                                    } else{
+                                        alert(res.mes)
+                                    }
+                                })
+                            } else{
+                                alert('回复失败请联系管理员');
+                            }
+                        },
                     });
-                    // $.ajax({
-                    //     url:url,
-                    //     data:feedback,
-                    //     dataType: 'jsonp',
-                    //     crossDomain: true,
-                    //     success: function(data) {
-                    //         if(data && data.resultcode == '200'){
-                    //             console.log(data.result.today);
-                    //         }
-                    // }
-                    // });
 
                 }
             });
         });
-
+    //删除
+    $('.del_feedback').click(function () {
+            var data = {
+                'id' :$(this).attr('vid'),
+                'status':-1
+            };
+            var url = "{:url('Feedback/feedback_del')}";
+            $.post(url,data,function (res) {
+                if (res.data==1){
+                    alert(res.mes)
+                    window.location.reload();
+                } else{
+                    alert(res.mes)
+                }
+            });
+    })
 
 
 </script>

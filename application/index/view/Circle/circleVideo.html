@@ -1,0 +1,408 @@
+{include file="public/header" /}
+<link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/preview.css">
+<link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/oss.css">
+<link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/rome.css">
+<link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/example.css">
+<link rel="stylesheet" href="__STATIC__/amazeUi/assets/css/processstyle.css">
+</head>
+<body data-type="generalComponents">
+
+{include file="public/nav_header"/}
+
+<div class="tpl-page-container tpl-page-header-fixed">
+    {include file="public/nav_left"/}
+
+    <div class="tpl-content-wrapper">
+        <div class="tpl-portlet-components">
+            <div class="portlet-title">
+                <div class="caption font-green bold">
+                    <span class="am-icon-code"></span> 上传视频
+                </div>
+                <div class="tpl-portlet-input tpl-fz-ml">
+                    <div class="portlet-input input-small input-inline">
+                        <div class="input-icon right">
+                            <i class="am-icon-search"></i>
+                            <input type="text" class="form-control form-control-solid" placeholder="搜索..."> </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="tpl-block">
+
+                <div class="am-g">
+                    <div class="tpl-form-body tpl-form-line">
+                        <form class="am-form tpl-form-line-form">
+
+
+                            <div class="am-form-group">
+                                <label for="userName" class="am-u-sm-3 am-form-label">作者 <span class="tpl-form-line-small-title">Author</span></label>
+                                <div class="am-u-sm-9">
+                                    <input type="text" id="userName"  placeholder="{$Request.session.name}" value="{$Request.session.name}" >
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="user-email" class="am-u-sm-3 am-form-label">上传时间 <span class="tpl-form-line-small-title">Time</span></label>
+                                <div class="am-u-sm-9">
+                                    <input  class="am-form-field tpl-form-no-bg"  id='input' value="" />
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="user-intro" class="am-u-sm-3 am-form-label">文本内容  detail</label>
+                                <div class="am-u-sm-9">
+                                    <textarea class="" rows="5" id="detail" placeholder="做下描述吧！"></textarea>
+                                </div>
+                            </div>
+                            <div class="am-form-group">
+                                <label for="userName" class="am-u-sm-3 am-form-label">上传视频 <span class="tpl-form-line-small-title">Video</span></label>
+                                <div class="am-u-sm-9">
+                                    <input type="hidden" id="uploadAuth">
+                                    <input type="hidden" id="uploadAddress">
+                                    <input type="hidden" id="videoId">
+                                    <input type="file" name="file" class="am-form-field " id="files" multiple/>
+                                    <select multiple="multiple" id="textarea" style="display:none;position:relative; width:90%; height:450px; vertical-align:top; border:1px solid #cccccc;"></select>
+                                </div>
+
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="userName" class="am-u-sm-3 am-form-label">开始 <span class="tpl-form-line-small-title">start</span></label>
+                                <div class="am-u-sm-9">
+                                    <button type="button" class="am-btn am-btn-primary am-btn-danger " onclick="start()">开始上传</button>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="userName" class="am-u-sm-3 am-form-label">预览 <span class="tpl-form-line-small-title">Video</span></label>
+                                <div class="am-u-sm-9">
+                                    <video src="" controls id="video-box">
+                                        <source src="" type="video/mp4" class="circleVideoPre">
+                                    </video>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <div class="am-u-sm-9 am-u-sm-push-3">
+                                    <button type="button" id="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                    <button type="button" id="rough_draft" class="am-btn am-btn-primary am-btn-success ">保存草稿</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd" id="loading">开始上传</div>
+        <div class="am-modal-bd">
+            <span class="am-icon-spinner am-icon-spin"></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd" id="alert_title">黑科Online_后台系统</div>
+        <div class="am-modal-bd" id="alert">
+            请选择上传的视频
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+</div>
+
+{include file="public/footer" /}
+<script type="text/javascript" src="__STATIC__/amazeUi/assets/js/rome.js"></script>
+<script type="text/javascript" src="__STATIC__/amazeUi/assets/js/aliyun-upload-sdk1.3.1.min.js"></script>
+<script type="text/javascript" src="__STATIC__/amazeUi/assets/js/aliyun-oss-sdk4.13.2.min.js"></script>
+<script type="text/javascript" src="__STATIC__/amazeUi/assets/js/es6-promise.min.js"></script>
+<script type="text/javascript">
+    rome(input);
+    function firstUp(fileName,title){
+        var that=this;
+    }
+
+    //校圈需要的数据
+    var circleVidData = {
+        videoid : '',
+        CoverUrl:'',
+        playUrl:'',
+        start:0,
+        sub:0,
+    };
+    function refreshUp(videoId){
+        var that=this;
+
+    }
+    $('#submit').click(function () {
+            var text = $('#detail').val();
+            var time = $('#input').val();
+            var author = $('#userName').val();
+
+        if (author ==''){
+            $('#alert').html('作者不能为空');
+            $('#my-alert').modal('open');
+            return false;
+        }
+
+        if (time ==''){
+            $('#alert').html('请选择上传时间');
+            $('#my-alert').modal('open');
+            return false;
+        }
+
+        if (text ==''){
+            $('#alert').html('文本内容不能为空');
+            $('#my-alert').modal('open');
+            return false;
+        }
+
+        if ($("input[name='file']").val()==''){
+            $('#alert').html('请选择上传的视频文件');
+            $('#my-alert').modal('open');
+            return false;
+        }
+
+        if (circleVidData.start ==0){
+            $('#alert').html('请上传视频');
+            $('#my-alert').modal('open');
+            return false;
+        }
+
+        if (circleVidData.sub ==1){
+            $('#alert').html('请不要重复提交');
+            $('#my-alert').modal('open');
+            return false;
+        }
+
+            var url = "{:url('Circle/subCircleVideo')}";
+            var data = {
+                'videoid':circleVidData.videoid,
+                'videocoverurl':circleVidData.CoverUrl,
+                'playurl':circleVidData.playUrl,
+                'text':text,
+                'time':time,
+                'fromdevice':'黑科Online-PC',
+                'author':author,
+                'status':0,
+            };
+            //提交视频
+            $.post(url,data,function (res) {
+                if (res.data==1){
+                    $('#alert').html(res.mes);
+                    $('#my-alert').modal('open');
+                    circleVidData.sub = 1;
+                } else{
+                    $('#alert').html(res.mes);
+                    $('#my-alert').modal('open');
+                }
+            })
+
+    });
+
+
+    var uploader = new AliyunUpload.Vod({
+        // 文件上传失败
+        'onUploadFailed': function (uploadInfo, code, message) {
+            log("onUploadFailed: file:" + uploadInfo.file.name + ",code:" + code + ", message:" + message);
+        },
+        // 文件上传完成
+        'onUploadSucceed': function (uploadInfo) {
+            console.log("onUploadSucceed: " + uploadInfo.videoId + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
+
+            $('#loading').html('上传成功开始转码,此过程大约10秒请耐心等待');
+            setTimeout(function () {
+                req();
+            },10000);
+            function req(){
+                 $.ajax ({
+                     url: servername.testServer1+"/vod/videoinfo/"+uploadInfo.videoId+".do",
+                     type:"get",
+                     success: function (data) {
+                         if (data ==''){
+                             $('#loading').html('视频文件较大请耐心等待');
+                             setTimeout(function () {
+                                 req();
+                             },10000);
+                         } else
+                         {
+                             $('#my-modal-loading').modal('close');
+                             // console.log(data);
+                             // console.log(servername.testServer1+"/vod/videoinfo/"+uploadInfo.videoId+".do");
+                             circleVidData.videoid = uploadInfo.videoId;
+                             circleVidData.CoverUrl = data.VideoBase.CoverURL;
+                             circleVidData.playUrl = data.PlayInfoList.PlayInfo[3]['PlayURL'];
+                             circleVidData.start = 1;
+                             $("#video-box").prop("src",circleVidData.playUrl);
+                             $("#video-box").load();
+                             $("#video-box").addEventListener("canplaythrough", function() {
+                                 $("#video-box").play();
+                             } );
+                         }
+                     },
+                 });
+            }
+            },
+        // 文件上传进度
+        'onUploadProgress': function (uploadInfo, totalSize, loadedPercent) {
+            console.log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.round((loadedPercent * 100.00))  + "%");
+            $('#loading').html('上传'+Math.round((loadedPercent * 100.00))  + "%");
+            },
+        onUploadCanceled:function(uploadInfo)
+        {
+            log("onUploadCanceled:file:" + uploadInfo.file.name);
+        },
+        // 开始上传(1.第一次上传  2.网络中断重新继续上传)
+        'onUploadstarted': function (uploadInfo) {
+            if(!uploadInfo.videoId)//这个文件没有上传异常
+            {
+                var data = {
+                    fileName:uploadInfo.file.name,
+                    title:$("#userName").val(),
+                };
+                $.post({
+                    url: "http://47.106.138.230:8080/HeiKeOnline/vod/author.do",
+                    contentType:"application/json",
+                    data: JSON.stringify(data),
+                    success: function (result) {
+
+                        uploader.setUploadAuthAndAddress(uploadInfo, result.uploadAuth, result.uploadAddress,result.videoId);
+                    }
+                });
+            }
+            else//如果videoId有值，根据videoId刷新上传凭证
+            {
+                var videoId=uploadInfo.videoId;
+
+                $.get({
+                    url: "http://47.106.138.230:8080/HeiKeOnline/vod/refreshauthor/"+videoId+".do",
+                    success: function (result) {
+
+                        uploader.setUploadAuthAndAddress(uploadInfo, result.uploadAuth, result.uploadAddress,result.videoId);
+                    }
+                });
+
+            }
+            log("onUploadStarted:" + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
+        }
+        ,
+        'onUploadEnd':function(uploadInfo){
+            log("onUploadEnd: uploaded all the files");
+        }
+    });
+
+    // 点播上传。每次上传都是独立的鉴权，所以初始化时，不需要设置鉴权
+
+    var selectFile = function (event) {
+        var userData;
+        userData = '{"Vod":{"UserData":{"IsShowWaterMark":"true","Priority":"7"}}}';
+        log("add file: " + event.target.files[0].name);
+        // 点播上传。每次上传都是独立的OSS object，所以添加文件时，不需要设置OSS的属性
+        uploader.addFile(event.target.files[0], null, null, null, userData);
+    };
+
+    document.getElementById("files")
+        .addEventListener('change', selectFile);
+
+    var textarea=document.getElementById("textarea");
+
+    function start() {
+        log("start upload.");
+        if ($("input[name='file']").val()==''){
+            $('#alert').html('请选择上传的视频文件');
+            $('#my-alert').modal('open');
+            return false;
+        }
+        $('#my-modal-loading').modal('open');
+        uploader.startUpload();
+    }
+
+    function stop() {
+        log("stop upload.");
+        uploader.stopUpload();
+    }
+
+
+    function clearInputFile()
+    {
+        var ie = (navigator.appVersion.indexOf("MSIE")!=-1);
+        if( ie ){
+            var file = document.getElementById("files");
+            var file2= file.cloneNode(false);
+            file2.addEventListener('change', selectFile);
+            file.parentNode.replaceChild(file2,file);
+        }
+        else
+        {
+            document.getElementById("files").value = '';
+        }
+
+    }
+
+    function clearList() {
+        log("clean upload list.");
+        uploader.cleanList();
+    }
+
+    function getList() {
+        log("get upload list.");
+        var list = uploader.listFiles();
+        for (var i=0; i<list.length; i++) {
+            log("file:" + list[i].file.name + ", status:" + list[i].state + ", endpoint:" + list[i].endpoint + ", bucket:" + list[i].bucket + ", object:" + list[i].object);
+        }
+    }
+
+    function deleteFile() {
+        if (document.getElementById("deleteIndex").value) {
+            var index = document.getElementById("deleteIndex").value
+            log("delete file index:" + index);
+            uploader.deleteFile(index);
+        }
+    }
+
+    function cancelFile() {
+        if (document.getElementById("cancelIndex").value) {
+            var index = document.getElementById("cancelIndex").value
+            log("cancel file index:" + index);
+            uploader.cancelFile(index);
+        }
+    }
+
+
+    function clearLog() {
+        textarea.options.length = 0;
+    }
+
+    function log(value) {
+        if (!value) {
+            return;
+        }
+        var len = textarea.options.length;
+        if (len > 0 && textarea.options[len-1].value.substring(0, 40) == value.substring(0, 40)) {
+            //textarea.remove(len-1);
+        } else if (len > 25) {
+            textarea.remove(0);
+        }
+
+        var option=document.createElement("option");
+        option.value=value,option.innerHTML=value;
+        textarea.appendChild(option);
+    }
+
+</script>
+</body>
+
+</html>
