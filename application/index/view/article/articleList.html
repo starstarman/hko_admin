@@ -12,7 +12,7 @@
             <div class="tpl-portlet-components">
                 <div class="portlet-title">
                     <div class="caption font-green bold">
-                        <span class="am-icon-code"></span> 列表
+                        <span class="am-icon-code"></span> 文章列表
                     </div>
                     <div class="tpl-portlet-input tpl-fz-ml">
                         <div class="portlet-input input-small input-inline">
@@ -55,11 +55,11 @@
                                                     <div class="am-btn-group am-btn-group-xs">
                                                        <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span>  <a href="{:url('Article/articleEdit',['newId'=>$vo.id])}">编辑</a></button>
                                                         {if condition = "$vo.status eq 0"}
-                                                        <button type="button" id="release" value="{$vo.id}" class="am-btn am-btn-default  am-text-success am-btn-xs am-hide-sm-only"><span class="am-icon-eye"></span>发布</button>
+                                                        <button type="button"  value="{$vo.id}" class=" release am-btn am-btn-default  am-text-success am-btn-xs am-hide-sm-only"><span class="am-icon-eye"></span>发布</button>
                                                         {else /}
-                                                        <button type="button" id="under" value="{$vo.id}" class="am-btn am-btn-default am-text-warning am-btn-xs am-hide-sm-only"> <span class="am-icon-eye-slash"></span>下线</button>
+                                                        <button type="button"  value="{$vo.id}" class=" under am-btn am-btn-default am-text-warning am-btn-xs am-hide-sm-only"> <span class="am-icon-eye-slash"></span>下线</button>
                                                         {/if}
-                                                        <button type="button" id="del" value="{$vo.id}"class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
+                                                        <button type="button"  value="{$vo.id}" class=" del am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
 
                                                     </div>
                                                 </div>
@@ -96,59 +96,51 @@
 
     </div>
 
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd" id="alert_title">黑科Online_后台系统</div>
+        <div class="am-modal-bd" id="alert">
+            请选择上传的视频
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+</div>
 {include file="public/footer" /}
 <script type="text/javascript">
     //发布
-    $('#release').click(function () {
+    $('.release').click(function () {
         var id = this.value;
         var url = "{:url('Article/release')}";
         var data ={
           'id' : id,
           'status':1
         };
-        $.post(url,data,function (res) {
-            if (res.data==1){
-                alert(res.mes);
-                // window.location.reload();
-            } else{
-                alert(res.mes)
-            }
-        })
-    })
+        status_change(url,data);
+    });
+
     //下线
-    $('#under').click(function () {
+    $('.under').click(function () {
         var id = this.value;
         var url = "{:url('Article/under')}";
         var data ={
             'id' : id,
             'status':0
         };
-        $.post(url,data,function (res) {
-            if (res.data==1){
-                alert(res.mes);
-                // window.location.reload();
-            } else{
-                alert(res.mes)
-            }
-        })
-    })
+        status_change(url,data);
+    });
 
     //删除
-    $('#del').click(function () {
+    $('.del').click(function () {
         var id = this.value;
         var url = "{:url('Article/under')}";
         var data ={
             'id' : id,
             'status':-1
         };
-        $.post(url,data,function (res) {
-            if (res.data==1){
-                alert(res.mes);
-                // window.location.reload();
-            } else{
-                alert(res.mes)
-            }
-        })
+        status_change(url,data);
     })
 </script>
 </body>

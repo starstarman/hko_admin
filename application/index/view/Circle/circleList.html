@@ -1,0 +1,151 @@
+
+{include file="public/header" /}
+</head>
+<body data-type="generalComponents">
+
+{include file="public/nav_header"/}
+
+    <div class="tpl-page-container tpl-page-header-fixed">
+        {include file="public/nav_left"/}
+
+        <div class="tpl-content-wrapper">
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 视频列表
+                    </div>
+                    <div class="tpl-portlet-input tpl-fz-ml">
+                        <div class="portlet-input input-small input-inline">
+                            <div class="input-icon right">
+                                <i class="am-icon-search"></i>
+                                <input type="text" class="form-control form-control-solid" placeholder="搜索..."> </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tpl-block">
+                    <div class="am-g">
+                        <div class="tpl-table-images">
+                            {volist name = "circleList" id = "vo" }
+                            <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
+                                <div class="tpl-table-images-content">
+                                    <div class="tpl-table-images-content-i-time">{$vo.time}</div>
+                                    <a href="javascript:;" class="tpl-table-images-content-i">
+                                        <div class="tpl-table-images-content-i-info">
+                                            <span class="ico">
+                                    <img src= "{$userData[$key]['icon']}" alt="">{$userData[$key]['name']}
+                                 </span>
+
+                                        </div>
+                                        <span class="tpl-table-images-content-i-shadow"></span>
+                                        <img src="{$vo.videocoverurl}"  style="height:155px;" alt="">
+                                    </a>
+                                    <div class="tpl-table-images-content-block">
+                                        <div class="tpl-i-font">
+                                            {$vo.text}
+                                        </div>
+                                        <div class="tpl-i-more">
+                                            <ul>
+                                                <li><span class="am-icon-qq am-text-warning">{$vo.likecount}+</span></li>
+                                                <li><span class="am-icon-weixin am-text-success"> {$vo.commentcount}+</span></li>
+                                                <li><span class="am-icon-github font-green"> {$vo.viewcount}+</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="am-btn-toolbar">
+                                            <div class="am-btn-group am-btn-group-xs tpl-edit-content-btn">
+                                                <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-edit"></span> 编辑</button>
+
+                                                <!--{if condition = "$vo.status eq 0"}-->
+                                                <!--<button type="button"  value="{$vo.id}" class=" release am-btn am-btn-default  am-text-success am-btn-xs am-hide-sm-only"><span class="am-icon-eye"></span>发布</button>-->
+                                                <!--{else /}-->
+                                                <!--<button type="button"  value="{$vo.id}" class=" under am-btn am-btn-default am-text-warning am-btn-xs am-hide-sm-only"> <span class="am-icon-eye-slash"></span>下线</button>-->
+                                                <!--{/if}-->
+
+                                                <button type="button"  value="{$vo.id}" class=" release am-btn am-btn-default am-btn-warning"><span class="am-icon-eye"></span> 发布</button>
+                                                <button type="button"  value="{$vo.id}" class=" under am-btn am-btn-default am-btn-success"><span class="am-icon-eye-slash"></span> 下线</button>
+                                                <button type="button"  value="{$vo.id}" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/volist}
+
+                            <div class="am-u-lg-12">
+                                <div class="am-cf">
+                                    <div class="am-fr">
+                                        {$circleList->render()}
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tpl-alert"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+{include file="public/footer" /}
+<script type="text/javascript">
+    //发布
+    $('#release').click(function () {
+        var id = this.value;
+        var url = "{:url('Article/release')}";
+        var data ={
+          'id' : id,
+          'status':1
+        };
+        $.post(url,data,function (res) {
+            if (res.data==1){
+                alert(res.mes);
+                // window.location.reload();
+            } else{
+                alert(res.mes)
+            }
+        })
+    })
+    //下线
+    $('#under').click(function () {
+        var id = this.value;
+        var url = "{:url('Article/under')}";
+        var data ={
+            'id' : id,
+            'status':0
+        };
+        $.post(url,data,function (res) {
+            if (res.data==1){
+                alert(res.mes);
+                // window.location.reload();
+            } else{
+                alert(res.mes)
+            }
+        })
+    })
+
+    //删除
+    $('#del').click(function () {
+        var id = this.value;
+        var url = "{:url('Article/under')}";
+        var data ={
+            'id' : id,
+            'status':-1
+        };
+        $.post(url,data,function (res) {
+            if (res.data==1){
+                alert(res.mes);
+                // window.location.reload();
+            } else{
+                alert(res.mes)
+            }
+        })
+    })
+</script>
+</body>
+
+</html>

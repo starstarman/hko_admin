@@ -41,7 +41,7 @@
             </li>
             {/in}
             <!--文章管理的权限-->
-            {in name='$Request.session.isvip' value="1,2"}
+            {in name='$Request.session.isvip' value="1,2,3"}
             <li class="tpl-left-nav-item">
                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
                     <i class="am-icon-book"></i>
@@ -58,7 +58,7 @@
 
                             </i></a>
 
-                        {in name='$Request.session.isvip' value="2"}
+                        {in name='$Request.session.isvip' value="2,3"}
                         <a href="{:url('Article/articleHistory',['Tab'=>'历史编辑'])}">
                             <i class="am-icon-angle-right"></i>
                             <span Tab="历史编辑">历史编辑</span>
@@ -80,7 +80,7 @@
             {/in}
 
             <!--校圈管理的权限-->
-            {in name='$Request.session.isvip' value="1,2"}
+            {in name='$Request.session.isvip' value="1,2,4"}
             <li class="tpl-left-nav-item">
                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
                     <i class="am-icon-video-camera"></i>
@@ -93,6 +93,13 @@
                         <a href="{:url('Circle/circleVideo',['Tab'=>'上传视频'])}">
                             <i class="am-icon-angle-right"></i>
                             <span Tab="上传视频">上传视频</span>
+                            <i class="tpl-left-nav-content tpl-badge-success">
+
+                            </i></a>
+
+                        <a href="{:url('Circle/circleList',['Tab'=>'视频列表'])}">
+                            <i class="am-icon-angle-right"></i>
+                            <span Tab="视频列表">视频列表</span>
                             <i class="tpl-left-nav-content tpl-badge-success">
 
                             </i></a>

@@ -22,13 +22,14 @@ class Login extends Controller{
             return show('0','用户名或者密码不正确');
         }else{
             Session::set('name',$res[0]['name']);
-            Session::set('isvip',$res[0]['isvip']);
+            Session::set('isvip',$res[0]['viplevel']);
             Session::set('id',$res[0]['id']);
             Session::set('icon',$res[0]['icon']);
             $loginSuccessUrl = url('login/tablelist');
             return show('1','用户名或者密码不正确',$loginSuccessUrl);
         }
     }
+    //登陆成功后根据身份跳转的页面
     public function tablelist(){
 
         Session::get('name');
@@ -38,7 +39,7 @@ class Login extends Controller{
             ]);
         };
 
-        if (Session::get('isvip')==2){
+        if (Session::get('isvip')==3){
             return $this->fetch('article/articleadd',[
                 'Tab'=>'编辑文章'
             ]);
