@@ -29,4 +29,19 @@ class Article extends Model
 
           return $result;
     }
+
+    public function updateCircleData($circleVideo){
+        $result= $this->save([
+            'user_id'=>$circleVideo['user_id'],
+            'videoid'=>$circleVideo['videoid'],
+            'videocoverurl'=>$circleVideo['videocoverurl'],
+            'playurl'=>$circleVideo['playurl'],
+            'text'=>$circleVideo['text'],
+            'time'=>$circleVideo['time'],
+            'fromdevice'=>$circleVideo['fromdevice'],
+            'author'=>$circleVideo['author'],
+            'status'=>0
+        ],['id'=>$circleVideo['id']]);
+        return $result;
+    }
 }

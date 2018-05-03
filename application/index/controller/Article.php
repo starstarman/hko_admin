@@ -151,7 +151,7 @@ class Article extends Controller
         if ($res ==1){
             return show('','修改成功',1);
         }else{
-            return show('','修改失败请联系工作人员'.$articleStatus['id'].'aaa',0);
+            return show('','修改失败请联系工作人员',0);
         }
 
     }

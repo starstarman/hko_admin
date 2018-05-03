@@ -101,7 +101,7 @@
     <div class="am-modal-dialog">
         <div class="am-modal-hd" id="alert_title">黑科Online_后台系统</div>
         <div class="am-modal-bd" id="alert">
-            请选择上传的视频
+
         </div>
         <div class="am-modal-footer">
             <span class="am-modal-btn">确定</span>
@@ -135,7 +135,7 @@
     //删除
     $('.del').click(function () {
         var id = this.value;
-        var url = "{:url('Article/under')}";
+        var url = "{:url('Article/del')}";
         var data ={
             'id' : id,
             'status':-1

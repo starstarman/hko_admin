@@ -39,21 +39,21 @@
                             <div class="am-form-group">
                                 <label for="userName" class="am-u-sm-3 am-form-label">作者 <span class="tpl-form-line-small-title">Author</span></label>
                                 <div class="am-u-sm-9">
-                                    <input type="text" id="userName"  placeholder="{$Request.session.name}" value="{$Request.session.name}" >
+                                    <input type="text" id="userName"  placeholder="{$circle.author}" value="{$circle.author}" >
                                 </div>
                             </div>
 
                             <div class="am-form-group">
                                 <label for="user-email" class="am-u-sm-3 am-form-label">上传时间 <span class="tpl-form-line-small-title">Time</span></label>
                                 <div class="am-u-sm-9">
-                                    <input  class="am-form-field tpl-form-no-bg"  id='input' value="{$time}" />
+                                    <input  class="am-form-field tpl-form-no-bg"  id='input' value="{$circle.time}" />
                                 </div>
                             </div>
 
                             <div class="am-form-group">
                                 <label for="user-intro" class="am-u-sm-3 am-form-label">文本内容  detail</label>
                                 <div class="am-u-sm-9">
-                                    <textarea class="" rows="5" id="detail" placeholder="做下描述吧！"></textarea>
+                                    <textarea class="" rows="5" id="detail" placeholder="{$circle.text}">{$circle.text}</textarea>
                                 </div>
                             </div>
                             <div class="am-form-group">
@@ -78,7 +78,7 @@
                             <div class="am-form-group">
                                 <label for="userName" class="am-u-sm-3 am-form-label">预览 <span class="tpl-form-line-small-title">Video</span></label>
                                 <div class="am-u-sm-9">
-                                    <video src="" controls id="video-box">
+                                    <video src="{$circle.playurl}" controls id="video-box">
                                         <source src="" type="video/mp4" class="circleVideoPre">
                                     </video>
                                 </div>
@@ -86,7 +86,7 @@
 
                             <div class="am-form-group">
                                 <div class="am-u-sm-9 am-u-sm-push-3">
-                                    <button type="button" id="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                    <button type="button" id="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">修改并提交</button>
                                     <button type="button" id="rough_draft" class="am-btn am-btn-primary am-btn-success ">保存草稿</button>
                                 </div>
                             </div>
@@ -188,8 +188,10 @@
             return false;
         }
 
-            var url = "{:url('Circle/subCircleVideo')}";
+            var url = "{:url('Circle/updateCircleVideo')}";
             var data = {
+                'id':'{$circle.id}',
+                'user_id':'{$circle.user_id}',
                 'videoid':circleVidData.videoid,
                 'videocoverurl':circleVidData.CoverUrl,
                 'playurl':circleVidData.playUrl,

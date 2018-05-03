@@ -53,17 +53,13 @@
                                         </div>
                                         <div class="am-btn-toolbar">
                                             <div class="am-btn-group am-btn-group-xs tpl-edit-content-btn">
-                                                <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-edit"></span> 编辑</button>
-
-                                                <!--{if condition = "$vo.status eq 0"}-->
-                                                <!--<button type="button"  value="{$vo.id}" class=" release am-btn am-btn-default  am-text-success am-btn-xs am-hide-sm-only"><span class="am-icon-eye"></span>发布</button>-->
-                                                <!--{else /}-->
-                                                <!--<button type="button"  value="{$vo.id}" class=" under am-btn am-btn-default am-text-warning am-btn-xs am-hide-sm-only"> <span class="am-icon-eye-slash"></span>下线</button>-->
-                                                <!--{/if}-->
-
+                                                <button type="button" class="am-btn am-btn-default am-btn-loading"><span class="am-icon-edit"></span>  <a href="{:url('Circle/circleVideoEdit',['circleId'=>$vo.id])}">编辑</a></button>
+                                                {if condition = "$vo.status eq 0"}
                                                 <button type="button"  value="{$vo.id}" class=" release am-btn am-btn-default am-btn-warning"><span class="am-icon-eye"></span> 发布</button>
+                                                {else /}
                                                 <button type="button"  value="{$vo.id}" class=" under am-btn am-btn-default am-btn-success"><span class="am-icon-eye-slash"></span> 下线</button>
-                                                <button type="button"  value="{$vo.id}" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                                                {/if}
+                                                <button type="button"  value="{$vo.id}" class=" del am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
                                             </div>
                                         </div>
                                     </div>
@@ -91,59 +87,51 @@
 
     </div>
 
+<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd" id="alert_title">黑科Online_后台系统</div>
+        <div class="am-modal-bd" id="alert">
+
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+</div>
+
 {include file="public/footer" /}
 <script type="text/javascript">
     //发布
-    $('#release').click(function () {
+    $('.release').click(function () {
         var id = this.value;
-        var url = "{:url('Article/release')}";
+        var url = "{:url('Circle/release')}";
         var data ={
-          'id' : id,
-          'status':1
+            'id' : id,
+            'status':1
         };
-        $.post(url,data,function (res) {
-            if (res.data==1){
-                alert(res.mes);
-                // window.location.reload();
-            } else{
-                alert(res.mes)
-            }
-        })
-    })
+        status_change(url,data);
+    });
+
     //下线
-    $('#under').click(function () {
+    $('.under').click(function () {
         var id = this.value;
-        var url = "{:url('Article/under')}";
+        var url = "{:url('Circle/under')}";
         var data ={
             'id' : id,
             'status':0
         };
-        $.post(url,data,function (res) {
-            if (res.data==1){
-                alert(res.mes);
-                // window.location.reload();
-            } else{
-                alert(res.mes)
-            }
-        })
-    })
+        status_change(url,data);
+    });
 
     //删除
-    $('#del').click(function () {
+    $('.del').click(function () {
         var id = this.value;
-        var url = "{:url('Article/under')}";
+        var url = "{:url('Circle/del')}";
         var data ={
             'id' : id,
             'status':-1
         };
-        $.post(url,data,function (res) {
-            if (res.data==1){
-                alert(res.mes);
-                // window.location.reload();
-            } else{
-                alert(res.mes)
-            }
-        })
+        status_change(url,data);
     })
 </script>
 </body>
