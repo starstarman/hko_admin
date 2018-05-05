@@ -39,12 +39,17 @@ class Login extends Controller{
             ]);
         };
 
-        if (Session::get('isvip')==3){
-            return $this->fetch('article/articleadd',[
-                'Tab'=>'编辑文章'
-            ]);
+        if (Session::get('isvip')==2){
+            $this->redirect('article/articleadd');
         };
 
+        if (Session::get('isvip')==3){
+            $this->redirect('article/articleadd');
+        };
+
+        if (Session::get('isvip')==4){
+            $this->redirect('circle/circleVideo');
+        };
 
     }
 

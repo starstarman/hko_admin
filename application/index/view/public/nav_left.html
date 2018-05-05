@@ -8,7 +8,7 @@
             {in name='$Request.session.isvip' value="1"}
             <li class="tpl-left-nav-item">
                 <a href="{:url('login/tablelist',['Tab'=>'首页'])}" class="nav-link">
-                    <i class="am-icon-home"></i>
+                    <i class="am-icon-home am-icon-fw"></i>
                     <span >首页</span>
                 </a>
             </li>
@@ -17,7 +17,7 @@
             {in name='$Request.session.isvip' value="1"}
             <li class="tpl-left-nav-item">
                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                    <i class="am-icon-comments"></i>
+                    <i class="am-icon-comments am-icon-fw"></i>
                     <span>评论管理</span>
                     <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                 </a>
@@ -40,11 +40,12 @@
                 </ul>
             </li>
             {/in}
+
             <!--文章管理的权限-->
             {in name='$Request.session.isvip' value="1,2,3"}
             <li class="tpl-left-nav-item">
                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                    <i class="am-icon-book"></i>
+                    <i class="am-icon-book am-icon-fw"></i>
                     <span>文章管理</span>
                     <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                 </a>
@@ -83,7 +84,7 @@
             {in name='$Request.session.isvip' value="1,2,4"}
             <li class="tpl-left-nav-item">
                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                    <i class="am-icon-video-camera"></i>
+                    <i class="am-icon-video-camera am-icon-fw"></i>
                     <span>校圈管理</span>
                     <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                 </a>
@@ -108,11 +109,12 @@
                 </ul>
             </li>
             {/in}
+
             <!--反馈管理-->
             {in name='$Request.session.isvip' value="1"}
             <li class="tpl-left-nav-item">
                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                    <i class="am-icon-align-center"></i>
+                    <i class="am-icon-align-center am-icon-fw"></i>
                     <span>反馈管理</span>
                     <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                 </a>
@@ -132,6 +134,36 @@
                             <!--<i class="tpl-left-nav-content tpl-badge-primary">-->
 
                             <!--</i></a>-->
+
+                    </li>
+                </ul>
+            </li>
+            {/in}
+
+            <!--用户管理-->
+            {in name='$Request.session.isvip' value="1"}
+            <li class="tpl-left-nav-item">
+                <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                    <i class="am-icon-user am-icon-fw"></i>
+                    <span>用户管理</span>
+                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                </a>
+                <ul class="tpl-left-nav-sub-menu">
+                    <li>
+
+                        <a href="{:url('User/userList',['Tab'=>'用户列表'])}">
+                            <i class="am-icon-angle-right"></i>
+                            <span Tab="用户列表">用户列表</span>
+                            <i class="tpl-left-nav-content tpl-badge-success">
+
+                            </i></a>
+
+                        <!--<a href="{:url('Article/articleList',['Tab'=>'文章列表'])}">-->
+                        <!--<i class="am-icon-angle-right"></i>-->
+                        <!--<span Tab="文章列表">文章列表</span>-->
+                        <!--<i class="tpl-left-nav-content tpl-badge-primary">-->
+
+                        <!--</i></a>-->
 
                     </li>
                 </ul>
