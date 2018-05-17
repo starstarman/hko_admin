@@ -221,14 +221,14 @@
     $('#selectIcon').click(function () {
             var url = "{:url('user/selectUser')}";
             var data ={
-                user_id: $(this).val()
+                user_id: $('#select').val()
             };
-            if (isNaN($(this).val())){
+            if (isNaN($('#select').val())){
                 $('#alert').html("哥输入id哥，没看见让输入用户id么");
                 $('#my-alert').modal('open');
                 return false;
             };
-            if ($(this).val()==''){
+            if ($('#select').val()==''){
                 $('#alert').html("玩呢啊");
                 $('#my-alert').modal('open');
                 return false;
