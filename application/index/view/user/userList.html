@@ -17,8 +17,8 @@
                 <div class="tpl-portlet-input tpl-fz-ml">
                     <div class="portlet-input input-small input-inline">
                         <div class="input-icon right">
-                            <i class="am-icon-search"></i>
-                            <input type="text" class="form-control form-control-solid" placeholder="搜索..."> </div>
+                            <i id="selectIcon" class="am-icon-search"></i>
+                            <input type="text" id="select" class="form-control form-control-solid" placeholder="请输入用户id"> </div>
                     </div>
                 </div>
 
@@ -38,6 +38,8 @@
                                     <th class="table-sex">性别</th>
                                     <th class="table-author am-hide-sm-only">注册时间</th>
                                     <th class="table-set">设置密码</th>
+                                    <th class="table-ban">禁言</th>
+                                    <th class="table-waring">警告</th>
                                     <th class="table-date am-hide-sm-only">用户权限变更</th>
                                 </tr>
                                 </thead>
@@ -60,8 +62,20 @@
                                         </div>
                                     </td>
                                     <td class="am-hide-sm-only">
+                                        <select  class="banTime" data-am-selected="{btnWidth: '80%'}" user_id="{$vo.id}">
+                                            <option value="0">时间</option>
+                                            <option value="1440">一天</option>
+                                            <option value="4320">三天</option>
+                                            <option value="43200">一个月</option>
+                                            <option value="5184000">一年</option>
+                                        </select>
+                                    </td>
+                                    <td class="am-hide-sm-only">
+                                        <button type="button"  value="{$vo.id}" name="{$vo.name}" class=" warning am-btn am-btn-default am-text-warning am-btn-xs am-hide-sm-only"> <span class="am-icon-bolt"></span>警告</button>
+                                    </td>
+                                    <td class="am-hide-sm-only">
                                         {if condition = "$vo.viplevel eq 1"}
-                                        <select data-am-selected user_id="{$vo.id}">
+                                        <select class="identity" data-am-selected user_id="{$vo.id}">
                                             <option value="1" selected>超级管理员</option>
                                             <option value="2">超级编辑</option>
                                             <option value="3">小编</option>
@@ -70,7 +84,7 @@
                                             <option value="10" >普通用户</option>
                                         </select>
                                         {elseif condition = "$vo.viplevel eq 2"}
-                                        <select data-am-selected user_id="{$vo.id}">
+                                        <select class="identity"data-am-selected user_id="{$vo.id}">
                                             <option value="1">超级管理员</option>
                                             <option value="2" selected>超级编辑</option>
                                             <option value="3">小编</option>
@@ -79,7 +93,7 @@
                                             <option value="10" >普通用户</option>
                                         </select>
                                         {elseif condition = "$vo.viplevel eq 3"}
-                                        <select data-am-selected user_id="{$vo.id}">
+                                        <select class="identity" data-am-selected user_id="{$vo.id}">
                                             <option value="1">超级管理员</option>
                                             <option value="2">超级编辑</option>
                                             <option value="3" selected>小编</option>
@@ -88,7 +102,7 @@
                                             <option value="10" >普通用户</option>
                                         </select>
                                         {elseif condition = "$vo.viplevel eq 4"}
-                                        <select data-am-selected user_id="{$vo.id}">
+                                        <select class="identity"data-am-selected user_id="{$vo.id}">
                                             <option value="1">超级管理员</option>
                                             <option value="2">超级编辑</option>
                                             <option value="3" >小编</option>
@@ -97,7 +111,7 @@
                                             <option value="10" >普通用户</option>
                                         </select>
                                         {elseif condition = "$vo.viplevel eq 5"}
-                                        <select data-am-selected user_id="{$vo.id}">
+                                        <select class="identity" data-am-selected user_id="{$vo.id}">
                                             <option value="1">超级管理员</option>
                                             <option value="2">超级编辑</option>
                                             <option value="3" >小编</option>
@@ -106,7 +120,7 @@
                                             <option value="10" >普通用户</option>
                                         </select>
                                         {else /}
-                                        <select data-am-selected user_id="{$vo.id}">
+                                        <select  class="identity" data-am-selected user_id="{$vo.id}">
                                             <option value="1">超级管理员</option>
                                             <option value="2">超级编辑</option>
                                             <option value="3" >小编</option>
@@ -117,6 +131,7 @@
                                         {/if}
                                     </td>
 
+
                                 </tr>
                                 {/volist}
 
@@ -125,7 +140,11 @@
                             <div class="am-cf">
 
                                 <div class="am-fr">
-                                    {$list->render()}
+                                    {if condition = "$num eq 1"}
+
+                                    {else /}
+                                        {$list->render()}
+                                    {/if}
                                 </div>
                             </div>
                             <hr>
@@ -146,6 +165,21 @@
         <div class="am-modal-bd">
             不可输入非法字符
             <input type="text" class="replayContent am-modal-prompt-input" placeholder="">
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+        </div>
+    </div>
+</div>
+
+
+<div class="am-modal am-modal-prompt" tabindex="-1" id="warning-prompt">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">发送警告</div>
+        <div class="warning_people am-modal-bd ">
+
+            <input type="text" class="warning-content am-modal-prompt-input" placeholder="">
         </div>
         <div class="am-modal-footer">
             <span class="am-modal-btn" data-am-modal-cancel>取消</span>
@@ -183,8 +217,60 @@
 
 {include file="public/footer" /}
 <script type="text/javascript">
+    //搜索用户
+    $('#selectIcon').click(function () {
+            var url = "{:url('user/selectUser')}";
+            var data ={
+                user_id: $(this).val()
+            };
+            if (isNaN($(this).val())){
+                $('#alert').html("哥输入id哥，没看见让输入用户id么");
+                $('#my-alert').modal('open');
+                return false;
+            };
+            if ($(this).val()==''){
+                $('#alert').html("玩呢啊");
+                $('#my-alert').modal('open');
+                return false;
+            }
+            $.post(url,data,function (res) {
+                if (res.data!= 0){
+                    window.location.href="/index/user/userselectlist.html?id="+res.data[0].id;
+                }else{
+                    $('#alert').html(res.mes);
+                    $('#my-alert').modal('open');
+                }
+            })
+    });
+    //搜索用户
+    $('#select').bind('keydown',function(event){
+        if(event.keyCode == "13") {
+            var url = "{:url('user/selectUser')}";
+            var data ={
+                user_id: $(this).val()
+            };
+            if (isNaN($(this).val())){
+                $('#alert').html("哥输入id哥，没看见让输入用户id么");
+                $('#my-alert').modal('open');
+                return false;
+            }
+            if ($(this).val()==''){
+                $('#alert').html("玩呢啊");
+                $('#my-alert').modal('open');
+                return false;
+            }
+            $.post(url,data,function (res) {
+                if (res.data!= 0){
+                    window.location.href="/index/user/userselectlist.html?id="+res.data[0].id;
+                }else{
+                    $('#alert').html(res.mes);
+                    $('#my-alert').modal('open');
+                }
+            })
+        }
+    });
     //用户权限变更
-    $('select').change(function () {
+    $('.identity').change(function () {
         var identity = $(this).find("option:selected").text();
         var viplevel = $(this).find("option:selected").val();
         var id = $(this).attr('user_id');
@@ -204,6 +290,25 @@
         });
     })
 
+    $('.banTime').change(function () {
+        var time = $(this).find("option:selected").text();
+        var minutes = $(this).find("option:selected").val();
+        var user_id = $(this).attr('user_id');
+        var url = "{:url('user/banTime')}";
+        var data = {
+            'user_id':user_id,
+            'minutes':minutes
+        };
+        $('.am-modal-bd').html("您，确定要将该用户禁言"+time+"吗?");
+        $('#my-confirm').modal({
+            onConfirm: function(options) {
+                status_change(url,data);
+            },
+            onCancel: function() {
+                window.location.reload()
+            }
+        });
+    });
     //设置密码
     $('.doc-prompt-toggle').on('click', function() {
         $('.replayContent').attr('placeholder',$(this).val());
@@ -219,7 +324,39 @@
             }
         });
     });
-
+    //警告
+    $('.warning').click(function () {
+        $('.warning_people').prepend('警告的用户是：'+$(this).attr('name'));
+        var id = $(this).val();
+        var url = servername.appServer+'/systemmsg.do ';
+        var data = {
+            'userId':id,
+            'importantLevel':5
+        };
+        $('#warning-prompt').modal({
+            onConfirm: function(e) {
+                data.text = e.data;
+                $.post({
+                    url: servername.appServer+"/systemmsg.do ",
+                    contentType:"application/json",
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        if (result==1){
+                            //重置状态a
+                            $('#alert').html('警告成功');
+                            $('#my-alert').modal('open');
+                        } else{
+                            $('#alert').html('警告失败请联系管理员');
+                            $('#my-alert').modal('open')
+                        }
+                    },
+                });
+            },
+            onCancel:function () {
+                window.location.reload()
+            }
+        });
+    });
     //反馈查看
     // $('.see').click(function () {
     //     $('#view').html($(this).val());

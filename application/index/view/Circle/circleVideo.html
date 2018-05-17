@@ -226,7 +226,7 @@
             $('#loading').html('上传成功开始转码,此过程大约10秒请耐心等待');
             setTimeout(function () {
                 req();
-            },10000);
+            },15000);
             function req(){
                  $.ajax ({
                      url: servername.testServer1+"/vod/videoinfo/"+uploadInfo.videoId+".do",
@@ -244,7 +244,7 @@
                              // console.log(servername.testServer1+"/vod/videoinfo/"+uploadInfo.videoId+".do");
                              circleVidData.videoid = uploadInfo.videoId;
                              circleVidData.CoverUrl = data.VideoBase.CoverURL;
-                             circleVidData.playUrl = data.PlayInfoList.PlayInfo[3]['PlayURL'];
+                             circleVidData.playUrl = data.PlayInfoList.PlayInfo[1]['PlayURL'];
                              circleVidData.start = 1;
                              $("#video-box").prop("src",circleVidData.playUrl);
                              $("#video-box").load();

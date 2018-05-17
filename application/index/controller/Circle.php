@@ -59,7 +59,7 @@ class Circle extends Controller
      */
 
     public function circleList(){
-        $circleList = $this->obj->where('status','<>',-2)->where('status','<>',-1)->order('status asc,time desc')->paginate(6);
+        $circleList = $this->obj->where('status','<>',-2)->where('status','<>',-1)->where('videoid','<>','')->order('status asc,time desc')->paginate(6);
         $userList = [];
         $userData = [];
 
@@ -133,6 +133,24 @@ class Circle extends Controller
 
     }
 
+    /**
+     * 审核
+     */
+    public function examine(){
+        $circleStatus = input('param.');
+        $underData = [
+            'examine'  =>$circleStatus['examine']
+        ];
+        $res = model('Article')->save($underData,['id'=>$circleStatus['id']]);
+
+        if ($res ==1){
+            return show('','审核成功',1);
+        }else{
+            return show('','审核失败请联系工作人员',0);
+        }
+
+    }
+
     /*
      * 视频编辑
      */
@@ -144,7 +162,7 @@ class Circle extends Controller
     public function circleVideoEdit(){
         $circleId = input('param.');
         //编辑文章的数据
-        $circle= model('Article')->where(['id'=>$circleId['circleId']])->select();
+        $circle= $this->obj->where(['id'=>$circleId['circleId']])->select();
 
         $cirData= $circle[0];
 
@@ -152,5 +170,45 @@ class Circle extends Controller
             'Tab'=>'上传视频',
             'circle'=>$cirData,
         ]);
+    }
+
+    /**
+     * 动态未审列表
+     */
+
+    public function publicList(){
+        $publicList = $this->obj->where('status','<>',-2)->where('status','<>',-1)->where('examine','=',0)->where('videoid',null)->order('examine asc,time desc')->paginate(6);
+
+        return $this->fetch('',[
+            'Tab'=>'动态未审列表',
+            'publicList'=>$publicList
+
+        ]);
+    }
+
+    /**
+     * 动态未审列表
+     */
+
+    public function passList(){
+        $publicList = $this->obj->where('status','<>',-2)->where('status','<>',-1)->where('examine','=',1)->where('videoid',null)->order('examine asc,time desc')->paginate(6);
+
+        return $this->fetch('',[
+            'Tab'=>'动态已审列表',
+            'publicList'=>$publicList
+
+        ]);
+    }
+
+    /*
+     * 查看动态
+     */
+
+    public function see(){
+        $seeData = input('param.');
+
+        $pictures = model('Articlepicture')->where('article_id','=',$seeData['id'])->select();
+
+        return show('','',$pictures);
     }
 }

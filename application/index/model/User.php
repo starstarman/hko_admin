@@ -28,11 +28,23 @@ class User extends Model
         return $result;
     }
 
+    public function isUser($userId){
+        $result =\model('Disablesendmsg')->isUser($userId);
+        return $result;
+    }
     /**
      * 设置密码
      */
     public function pwdChange($passwordData){
         $result = $this->save(['password'=>$passwordData['password']],['id'=>$passwordData['id']]);
         return $result;
+    }
+
+    /**
+     * 查找用户
+     */
+    public function selUser($user_id){
+        $res = $this->where(['id'=>$user_id])->select();
+        return $res;
     }
 }

@@ -128,7 +128,7 @@ class Article extends Controller
             'headimage'=>$article['headimage'],
             'kindof'=>$article['kindof'],
             'newhtml'=>$article['newhtml'],
-            'status'=>0
+            'status'=>1
         ];
         $res= model('News')->save($articledata,['id'=>$article['id']]);
         if ($res ==1){

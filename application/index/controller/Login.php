@@ -4,6 +4,7 @@ use think\Controller;
 use think\Session;
 
 class Login extends Controller{
+
     public function login(){
         return $this->fetch('',[
             'Tab'=>false,

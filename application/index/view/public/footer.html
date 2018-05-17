@@ -8,6 +8,10 @@
 <script src="__STATIC__/amazeUi/assets/js/app.js"></script>
 <script src="__STATIC__/amazeUi/assets/js/common_config.js"></script>
 <script src="__STATIC__/amazeUi/assets/js/common.js"></script>
+<script src="__STATIC__/amazeUi/assets/js/iscroll.js"></script>
+
+<script src="__STATIC__/hko-js/cookie.js"></script>
+<script src="__STATIC__/hko-js/timetransform.js"></script>
 
 <script type="text/javascript">
 
@@ -21,7 +25,224 @@
         }
 
     });
+    //时间戳转换
+    function timestampToTime(timestamp) {
+        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes() + ':';
+        s = date.getSeconds();
+        return Y+M+D+h+m+s;
+    }
+
+    //播放提示音-非法评论
+    function playAudio_NotLegalComment(){
+        var x = document.createElement("AUDIO");
+        x.setAttribute("src", "__STATIC__/hko-music/newmsg.mp3");
+
+        x.setAttribute("id", "myaudio");
+        document.body.appendChild(x);
+        var duaio=document.getElementById("myaudio");
+        duaio.play();
+
+    }
+    //播放提示音-新动态
+    function playAudio_NewArticle(){
+
+        var x = document.createElement("AUDIO");
+        x.setAttribute("src", "__STATIC__/hko-music/haha.mp3");
+
+        x.setAttribute("id", "myaudio");
+        document.body.appendChild(x);
+        var duaio=document.getElementById("myaudio");
+        duaio.play();
+
+    }
 
 
+
+    function clearAllLegalComments(){
+        //1.删除
+        delCookie("NotLegalComments");
+
+        //2.显示
+        showSocketMsg();
+    }
+
+
+
+    function clearAllNewArticles(){
+        //1.删除
+        delCookie("NewArticles");
+
+        //2.显示
+        showSocketMsg();
+    }
+
+    function showSocketMsg(){
+        var notLeagalCommentsDom=document.getElementById("notLeagalComments");
+        var notLegalCommentsSizeDom=document.getElementById("notLegalCommentsSize");
+
+        var newArticlesDom=document.getElementById("newArticles");
+        var newArticlesSizeDom=document.getElementById("newArticlesSize");
+
+        var notLeagalComments=getCookie("NotLegalComments");
+        var newArticles=getCookie("NewArticles");
+
+        var notLegalCommentsSize=0;
+        var newArtilcesSize=0;
+
+        if (notLeagalComments !=null && notLeagalComments != "")
+        {
+            notLeagalComments=JSON.parse(notLeagalComments);
+            notLegalCommentsSize=notLeagalComments.length;
+        }
+
+        if (newArticles != null && newArticles != "")
+        {
+            newArticles=JSON.parse(newArticles);
+            newArtilcesSize=newArticles.length;
+        }
+
+        // 默认提示-非法评论
+        var content_commens='<li class="tpl-dropdown-content-external"><h3>有 <span class="tpl-color-danger">'+notLegalCommentsSize+'</span> 条评论</h3><a onclick="clearAllLegalComments()">清除所有</a></li>';
+        if(notLeagalComments !=null && notLeagalComments != ""){
+
+            for(var i=notLeagalComments.length-1;i>=0;i--){
+                var item=notLeagalComments[i];
+                //评论内容
+                var item_comment='';
+                if (item.text !=null && item.text !='')
+                {
+                    item_comment=item.text;
+                }
+                if (item.content !=null && item.content !='')
+                {
+                    item_comment=item.content;
+                }
+                //评论时间转换
+
+                var time_str= timestampToTime(item.time);
+
+                content_commens=content_commens+'<li><a href="#" class="tpl-dropdown-content-message"><span class="tpl-dropdown-content-photo"><img src="'+item.user.icon+'" alt=""> </span><span class="tpl-dropdown-content-subject"><span class="tpl-dropdown-content-from">'+item.user.name+'</span><span class="tpl-dropdown-content-time">'+time_str+'</span></span><span class="tpl-dropdown-content-font"> '+item_comment+' </span></a></li> ';
+            }
+
+        }
+        //默认提示-新动态
+        var content_articles='<li class="tpl-dropdown-content-external"><h3>有 <span class="tpl-color-success">'+newArtilcesSize+'</span> 条动态</h3><a onclick="clearAllNewArticles()">清除所有</a></li>';
+        if(newArticles !=null && newArticles != ""){
+
+            for(var i=newArticles.length-1;i>=0;i--){
+                var item=newArticles[i];
+
+                //动态时间转换
+                var time_str=timestampToTime(item.time);
+
+                content_articles=content_articles+'<li><a href="/index/circle/circlevideoedit.html?circleId='+item.id+'" class="tpl-dropdown-content-message"><span class="tpl-dropdown-content-photo"><img src="'+item.user.icon+'" alt=""> </span><span class="tpl-dropdown-content-subject"><span class="tpl-dropdown-content-from">'+item.user.name+'</span><span class="tpl-dropdown-content-time">'+time_str+'</span></span><span class="tpl-dropdown-content-font"> '+item.content+' </span>';
+                if (item.imgPaths.length>0)
+                {
+                    for(var j=0;j<item.imgPaths.length;j++){
+                        var imgPath=item.imgPaths[j];
+                        content_articles=content_articles+'<span ><img width="60px" height="60px"src="'+imgPath+'" ></span>';
+                    }
+                }
+                content_articles=content_articles+'</a></li>';
+            }
+
+        }
+
+
+
+
+        //页面显示
+        notLeagalCommentsDom.innerHTML=content_commens;//非法评论内容体
+        notLegalCommentsSizeDom.innerHTML=notLegalCommentsSize;//非法评论数量
+
+        newArticlesDom.innerHTML=content_articles;//新动态内容体
+        newArticlesSizeDom.innerHTML=newArtilcesSize;//新动态数量
+
+    }
+
+    $('#allnotice').click(function () {
+        var  notice ={
+          'text':'',
+            'importantLevel':1
+        };
+        $('#notice').modal({
+            onConfirm: function(e) {
+              notice.text = e.data;
+                $.post({
+                    url: servername.noticeServer+"/systemmsg/toalluser.do",
+                    contentType:"application/json",
+                    data: JSON.stringify(notice),
+                    success: function (result) {
+                        if (result==1){
+                            alert('通知成功');
+                        } else{
+                            alert('通知失败');
+                        }
+                    },
+                });
+
+            },
+            onCancel:function (e) {
+                window.location.reload();
+            }
+        });
+    });
+    $(document).ready(function () {
+        //取cookie中的未读消息立即显示
+        //显示函数
+        showSocketMsg();
+        //建立websocket连接 获取最新的未读消息
+        var ws = new WebSocket("wss://xiaochengxu.kexie.group/HeiKeOnline/socket/adminSocketServer.do?userId="+{$Request.session.id}+"");
+        ws.onopen = function(evt) {
+            console.log("Connection open ...");
+        };
+        //重要
+        ws.onmessage = function(evt) {
+            console.log("Received Message: " + evt.data);
+
+            var data=JSON.parse(evt.data);
+            var kindof=data.kindof;//消息的类型
+            var value=data.value;//消息的集合
+
+            if (value.length==0)
+            {
+                return;
+            }
+            //选择播放提示音乐
+
+            if (kindof == 'NewArticles')
+            {
+                playAudio_NewArticle();
+            }else if(kindof == 'NotLegalComments'){
+                playAudio_NotLegalComment();
+            }
+
+            //放进cookie
+            var oldvalue_str=getCookie(kindof);
+            var oldvalue=[];
+            if(oldvalue_str == null || oldvalue_str=='') {
+                //第一次取 cookie中没有
+                oldvalue = value;
+            }
+            else{
+                oldvalue=JSON.parse(oldvalue_str);
+                for (var i=0;i<value.length;i++) { //之后取
+                    oldvalue.push(value[i]);
+                }
+            }
+            setCookie(kindof,JSON.stringify(oldvalue));
+            //显示函数
+            showSocketMsg();
+        };
+
+        ws.onclose = function(evt) {
+            console.log("Connection closed.");
+        };
+    });
 
 </script>
